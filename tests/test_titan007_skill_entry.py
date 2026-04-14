@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -9,7 +10,15 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.titan007_skill_entry import _cache_summary_is_reusable, _cached_date_ranges, parse_args
+from scripts.titan007_skill_entry import (
+    _cache_summary_is_reusable,
+    _cached_date_ranges,
+    codex_skill_install_path,
+    load_project_dependencies,
+    parse_args,
+    resolve_codex_home,
+    resolve_venv_python_path,
+)
 
 
 class Titan007SkillEntryTests(unittest.TestCase):
@@ -99,6 +108,36 @@ class Titan007SkillEntryTests(unittest.TestCase):
     def test_parse_args_defaults_train_models_to_full_markets(self) -> None:
         args = parse_args(["train-models"])
         self.assertEqual(args.market_profile, "full_markets")
+
+    def test_parse_args_bootstrap_defaults_to_repo_venv(self) -> None:
+        args = parse_args(["bootstrap"])
+        self.assertEqual(args.venv_path, PROJECT_ROOT / ".venv")
+        self.assertFalse(args.skip_install_skill)
+
+    def test_codex_skill_install_path_uses_explicit_codex_home(self) -> None:
+        target = codex_skill_install_path(Path("/tmp/codex-home"))
+        self.assertEqual(target, Path("/tmp/codex-home").resolve() / "skills" / "football-upset-predictor" / "SKILL.md")
+
+    def test_resolve_codex_home_prefers_environment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            original = os.environ.get("CODEX_HOME")
+            os.environ["CODEX_HOME"] = tmp_dir
+            try:
+                target = resolve_codex_home()
+            finally:
+                if original is None:
+                    os.environ.pop("CODEX_HOME", None)
+                else:
+                    os.environ["CODEX_HOME"] = original
+        self.assertEqual(target, Path(tmp_dir).resolve())
+
+    def test_resolve_venv_python_path_matches_platform(self) -> None:
+        target = resolve_venv_python_path(Path("/tmp/repro-venv"))
+        self.assertEqual(target.name, "python" if sys.platform != "win32" else "python.exe")
+
+    def test_load_project_dependencies_reads_pyproject(self) -> None:
+        dependencies = load_project_dependencies(PROJECT_ROOT / "pyproject.toml")
+        self.assertIn("openpyxl>=3.1,<4", dependencies)
 
 
 if __name__ == "__main__":

@@ -2,8 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import shutil
+import subprocess
 import sys
+import tomllib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -30,6 +34,8 @@ DEFAULT_DRAW_MODEL_PATH = PROJECT_ROOT / "data" / "models" / "titan007_draw_soft
 DEFAULT_REPORT_DIR = PROJECT_ROOT / "data" / "interim" / "training_reports"
 DEFAULT_WINDOW_CONFIG_PATH = PROJECT_ROOT / "data" / "interim" / "titan007" / "default_history_windows.json"
 DEFAULT_REFRESH_CACHE_ROOT = TITAN007_INTERIM_DIR / "refresh_cache"
+DEFAULT_VENV_PATH = PROJECT_ROOT / ".venv"
+DEFAULT_REPO_SKILL_PATH = PROJECT_ROOT / "skills" / "football-upset-predictor" / "SKILL.md"
 
 PREDICTION_RUN_PATTERN = re.compile(r"^\d{8}T\d{6}Z$")
 HISTORY_RUN_PATTERN = re.compile(r"^history_\d{8}T\d{6}Z$")
@@ -143,6 +149,37 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     refresh_parser.add_argument("--main-model-path", type=Path, default=DEFAULT_MAIN_MODEL_PATH, help="Output path for the main upset model.")
     refresh_parser.add_argument("--draw-model-path", type=Path, default=DEFAULT_DRAW_MODEL_PATH, help="Output path for the draw-upset model.")
 
+    bootstrap_parser = subparsers.add_parser(
+        "bootstrap",
+        help="Prepare a fresh machine: create data directories, install Python dependencies, and install the Codex skill.",
+    )
+    bootstrap_parser.add_argument(
+        "--python",
+        default=sys.executable,
+        help="Python executable used to create the virtual environment and install dependencies.",
+    )
+    bootstrap_parser.add_argument(
+        "--venv-path",
+        type=Path,
+        default=DEFAULT_VENV_PATH,
+        help="Virtual environment path. Defaults to <repo>/.venv.",
+    )
+    bootstrap_parser.add_argument(
+        "--skip-venv",
+        action="store_true",
+        help="Install dependencies into the selected Python directly instead of creating a virtual environment.",
+    )
+    bootstrap_parser.add_argument(
+        "--skip-install-skill",
+        action="store_true",
+        help="Skip copying the repository skill into the local Codex skills directory.",
+    )
+    bootstrap_parser.add_argument(
+        "--codex-home",
+        type=Path,
+        help="Optional CODEX_HOME override. Defaults to $CODEX_HOME or ~/.codex.",
+    )
+
     return parser.parse_args(argv)
 
 
@@ -172,6 +209,37 @@ def _load_json(path: Path) -> dict[str, object]:
 def _write_json(path: Path, payload: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def resolve_codex_home(codex_home: Path | None = None) -> Path:
+    if codex_home is not None:
+        return codex_home.expanduser().resolve()
+    env_value = os.environ.get("CODEX_HOME")
+    if env_value:
+        return Path(env_value).expanduser().resolve()
+    return (Path.home() / ".codex").resolve()
+
+
+def codex_skill_install_path(codex_home: Path | None = None) -> Path:
+    return resolve_codex_home(codex_home) / "skills" / "football-upset-predictor" / "SKILL.md"
+
+
+def resolve_venv_python_path(venv_path: Path) -> Path:
+    return venv_path / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+
+
+def _run_command(command: list[str], *, cwd: Path) -> None:
+    subprocess.run(command, cwd=cwd, check=True)
+
+
+def load_project_dependencies(pyproject_path: Path | None = None) -> list[str]:
+    target = pyproject_path or (PROJECT_ROOT / "pyproject.toml")
+    payload = tomllib.loads(target.read_text(encoding="utf-8"))
+    project = payload.get("project", {})
+    dependencies = project.get("dependencies", [])
+    if not isinstance(dependencies, list):
+        return []
+    return [str(item) for item in dependencies]
 
 
 def _group_cache_paths(label: str) -> tuple[Path, Path, Path, Path]:
@@ -500,8 +568,61 @@ def _refresh_models(args: argparse.Namespace) -> int:
     return 0
 
 
+def _bootstrap(args: argparse.Namespace) -> int:
+    required_dirs = [
+        PROJECT_ROOT / "data",
+        PROJECT_ROOT / "data" / "raw",
+        PROJECT_ROOT / "data" / "interim",
+        PROJECT_ROOT / "data" / "features",
+        PROJECT_ROOT / "data" / "models",
+    ]
+    for path in required_dirs:
+        path.mkdir(parents=True, exist_ok=True)
+
+    if args.skip_venv:
+        python_cmd = [args.python]
+    else:
+        args.venv_path.mkdir(parents=True, exist_ok=True)
+        venv_python = resolve_venv_python_path(args.venv_path)
+        if not venv_python.exists():
+            _run_command([args.python, "-m", "venv", str(args.venv_path)], cwd=PROJECT_ROOT)
+        python_cmd = [str(resolve_venv_python_path(args.venv_path))]
+
+    _run_command([*python_cmd, "-m", "pip", "install", "--upgrade", "pip"], cwd=PROJECT_ROOT)
+    dependencies = load_project_dependencies()
+    if dependencies:
+        _run_command([*python_cmd, "-m", "pip", "install", *dependencies], cwd=PROJECT_ROOT)
+
+    if not args.skip_install_skill:
+        install_path = codex_skill_install_path(args.codex_home)
+        install_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(DEFAULT_REPO_SKILL_PATH, install_path)
+        print(f"Codex skill installed to {install_path}")
+
+    if args.skip_venv:
+        install_python = args.python
+    else:
+        install_python = str(resolve_venv_python_path(args.venv_path))
+
+    print("Bootstrap completed.")
+    if not args.skip_venv:
+        activation_hint = args.venv_path / ("Scripts/activate" if os.name == "nt" else "bin/activate")
+        print(f"Activate the virtual environment with: source {activation_hint}")
+    print(
+        "First-time model setup: "
+        f"PYTHONPATH=src {install_python} scripts/titan007_skill_entry.py refresh-models --validation-season 2526"
+    )
+    print(
+        "Prediction example: "
+        f"PYTHONPATH=src {install_python} scripts/titan007_skill_entry.py predict-excel --start-date YYYY-MM-DD --end-date YYYY-MM-DD --top-n 20"
+    )
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.command == "bootstrap":
+        return _bootstrap(args)
     if args.command == "predict-range":
         return _predict_range(args)
     if args.command == "predict-excel":
