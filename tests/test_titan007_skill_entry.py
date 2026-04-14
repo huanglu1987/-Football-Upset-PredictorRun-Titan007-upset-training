@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from scripts.titan007_skill_entry import (
     _cache_summary_is_reusable,
     _cached_date_ranges,
+    _bootstrap_refresh_namespace,
     codex_skill_install_path,
     load_project_dependencies,
     parse_args,
@@ -113,6 +114,14 @@ class Titan007SkillEntryTests(unittest.TestCase):
         args = parse_args(["bootstrap"])
         self.assertEqual(args.venv_path, PROJECT_ROOT / ".venv")
         self.assertFalse(args.skip_install_skill)
+        self.assertFalse(args.run_refresh_models)
+        self.assertEqual(args.validation_season, "2526")
+
+    def test_parse_args_bootstrap_accepts_refresh_flags(self) -> None:
+        args = parse_args(["bootstrap", "--run-refresh-models", "--skip-side-markets", "--validation-season", "2425"])
+        self.assertTrue(args.run_refresh_models)
+        self.assertTrue(args.skip_side_markets)
+        self.assertEqual(args.validation_season, "2425")
 
     def test_codex_skill_install_path_uses_explicit_codex_home(self) -> None:
         target = codex_skill_install_path(Path("/tmp/codex-home"))
@@ -138,6 +147,13 @@ class Titan007SkillEntryTests(unittest.TestCase):
     def test_load_project_dependencies_reads_pyproject(self) -> None:
         dependencies = load_project_dependencies(PROJECT_ROOT / "pyproject.toml")
         self.assertIn("openpyxl>=3.1,<4", dependencies)
+
+    def test_bootstrap_refresh_namespace_uses_refresh_defaults(self) -> None:
+        args = parse_args(["bootstrap", "--run-refresh-models", "--validation-season", "2425"])
+        refresh_args = _bootstrap_refresh_namespace(args)
+        self.assertEqual(refresh_args.validation_season, "2425")
+        self.assertEqual(refresh_args.market_profile, "full_markets")
+        self.assertEqual(refresh_args.main_model_path, PROJECT_ROOT / "data" / "models" / "titan007_softmax_model.json")
 
 
 if __name__ == "__main__":

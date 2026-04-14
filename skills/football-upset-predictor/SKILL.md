@@ -15,6 +15,12 @@ cd <repo-dir>
 bash scripts/bootstrap_repo.sh
 ```
 
+If the machine is brand new and you want bootstrap to immediately build the first local models, run:
+
+```bash
+bash scripts/bootstrap_repo.sh --run-refresh-models
+```
+
 ## Predict a date range to Excel
 
 Use the convenience entrypoint:

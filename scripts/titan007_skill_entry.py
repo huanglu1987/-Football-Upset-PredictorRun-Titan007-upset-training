@@ -23,7 +23,6 @@ from scripts.predict_titan007_range import main as predict_range_main
 from scripts.train_draw_model import main as train_draw_main
 from scripts.train_upset_model import main as train_upset_main
 from upset_model.config import TITAN007_INTERIM_DIR, TITAN007_RAW_DIR, normalize_titan007_competition_filters
-from upset_model.excel_report import build_prediction_excel_report_from_run_dir
 from upset_model.history_expander import load_history_window_groups, merge_training_row_files
 from upset_model.modeling import load_model_artifact
 
@@ -179,6 +178,27 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         help="Optional CODEX_HOME override. Defaults to $CODEX_HOME or ~/.codex.",
     )
+    bootstrap_parser.add_argument(
+        "--run-refresh-models",
+        action="store_true",
+        help="After environment setup, immediately run refresh-models for first-time model initialization.",
+    )
+    bootstrap_parser.add_argument(
+        "--validation-season",
+        default="2526",
+        help="Validation season used when --run-refresh-models is enabled. Defaults to 2526.",
+    )
+    bootstrap_parser.add_argument(
+        "--market-profile",
+        choices=["all", "full_markets", "1x2_only", "partial_markets"],
+        default="full_markets",
+        help="Training cohort used when --run-refresh-models is enabled.",
+    )
+    bootstrap_parser.add_argument(
+        "--skip-side-markets",
+        action="store_true",
+        help="Use 1X2-only historical backfill when --run-refresh-models is enabled.",
+    )
 
     return parser.parse_args(argv)
 
@@ -328,6 +348,8 @@ def _predict_excel(args: argparse.Namespace) -> int:
     if run_dir is None:
         print("Prediction finished, but the run directory could not be located.")
         return 1
+
+    from upset_model.excel_report import build_prediction_excel_report_from_run_dir
 
     main_artifact = load_model_artifact(args.model_path)
     draw_artifact = load_model_artifact(args.draw_model_path) if args.draw_model_path.exists() else None
@@ -568,6 +590,18 @@ def _refresh_models(args: argparse.Namespace) -> int:
     return 0
 
 
+def _bootstrap_refresh_namespace(args: argparse.Namespace) -> argparse.Namespace:
+    return argparse.Namespace(
+        window_config_path=DEFAULT_WINDOW_CONFIG_PATH,
+        merged_output_path=DEFAULT_REFRESH_ROWS_PATH,
+        validation_season=args.validation_season,
+        market_profile=args.market_profile,
+        skip_side_markets=args.skip_side_markets,
+        main_model_path=DEFAULT_MAIN_MODEL_PATH,
+        draw_model_path=DEFAULT_DRAW_MODEL_PATH,
+    )
+
+
 def _bootstrap(args: argparse.Namespace) -> int:
     required_dirs = [
         PROJECT_ROOT / "data",
@@ -604,14 +638,23 @@ def _bootstrap(args: argparse.Namespace) -> int:
     else:
         install_python = str(resolve_venv_python_path(args.venv_path))
 
+    if args.run_refresh_models:
+        print("Running refresh-models as requested...")
+        refresh_exit = _refresh_models(_bootstrap_refresh_namespace(args))
+        if refresh_exit != 0:
+            return refresh_exit
+
     print("Bootstrap completed.")
     if not args.skip_venv:
         activation_hint = args.venv_path / ("Scripts/activate" if os.name == "nt" else "bin/activate")
         print(f"Activate the virtual environment with: source {activation_hint}")
-    print(
-        "First-time model setup: "
-        f"PYTHONPATH=src {install_python} scripts/titan007_skill_entry.py refresh-models --validation-season 2526"
-    )
+    if args.run_refresh_models:
+        print("Models initialized during bootstrap.")
+    else:
+        print(
+            "First-time model setup: "
+            f"PYTHONPATH=src {install_python} scripts/titan007_skill_entry.py refresh-models --validation-season {args.validation_season}"
+        )
     print(
         "Prediction example: "
         f"PYTHONPATH=src {install_python} scripts/titan007_skill_entry.py predict-excel --start-date YYYY-MM-DD --end-date YYYY-MM-DD --top-n 20"

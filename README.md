@@ -28,6 +28,14 @@ bash scripts/bootstrap_repo.sh
 - 创建 `data/raw`、`data/interim`、`data/features`、`data/models`
 - 把仓库内的 `football-upset-predictor` SKILL 安装到本机 Codex 技能目录
 
+如果你希望初始化环境后立刻自动训练首轮模型，可以直接运行：
+
+```bash
+bash scripts/bootstrap_repo.sh --run-refresh-models
+```
+
+这一步会更久，因为它会继续执行一次 `refresh-models`。
+
 ## 首次初始化模型
 
 新设备第一次运行预测前，先生成模型：
@@ -63,6 +71,12 @@ PYTHONPATH=src python3 scripts/titan007_skill_entry.py predict-excel --start-dat
 
 ```bash
 bash scripts/bootstrap_repo.sh
+```
+
+初始化环境并自动生成模型：
+
+```bash
+bash scripts/bootstrap_repo.sh --run-refresh-models
 ```
 
 只安装 Codex 技能：
