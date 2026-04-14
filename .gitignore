@@ -1,0 +1,11 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+
+data/raw/
+data/interim/
+data/features/
+data/models/
+
+飞书文档审核/

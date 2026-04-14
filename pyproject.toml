@@ -1,0 +1,10 @@
+[project]
+name = "win007-upset-model"
+version = "0.1.0"
+description = "Collect public football odds data and model upset predictions."
+requires-python = ">=3.11"
+dependencies = ["openpyxl>=3.1,<4"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
