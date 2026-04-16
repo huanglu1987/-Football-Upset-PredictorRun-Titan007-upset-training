@@ -231,6 +231,24 @@
 - `references/validation-results-round4.md`
 - 更稳健的 `output-template.md`
 
+### Phase 10: 第五轮示范案例沉淀
+
+**Goal**: 为团队试用和后续发布准备可直接参考的代表性示范输出
+
+**Tasks**:
+
+- [x] 选择四个高代表性场景
+- [x] 为每个场景编写示范输入与示范输出骨架
+- [x] 增加示范案例索引并接入主工作流
+
+**Deliverables**:
+
+- `references/worked-examples/index.md`
+- `references/worked-examples/acne-combination-dual-region.md`
+- `references/worked-examples/rosacea-us-chronic.md`
+- `references/worked-examples/superficial-fungal-short-course.md`
+- `references/worked-examples/aga-topical-finasteride-risk.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**

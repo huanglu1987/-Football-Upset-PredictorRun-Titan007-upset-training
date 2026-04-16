@@ -15,6 +15,7 @@ These files were explicitly provided for this project and should be treated as t
 - `references/validation-prompts.md`
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
+- `references/worked-examples/index.md`
 
 ### China Core Guidance
 
@@ -101,6 +102,7 @@ Use to keep answers stable and testable.
 - `references/validation-prompts.md`
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
+- `references/worked-examples/index.md`
 
 ## Live-Browse Triggers
 

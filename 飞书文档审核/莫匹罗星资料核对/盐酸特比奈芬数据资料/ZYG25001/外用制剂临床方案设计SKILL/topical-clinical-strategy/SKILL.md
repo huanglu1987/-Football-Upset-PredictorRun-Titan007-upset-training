@@ -102,6 +102,7 @@ Read these as needed:
 - `references/failure-patterns.md`
 - `references/validation-prompts.md`
 - `references/validation-results-round4.md`
+- `references/worked-examples/index.md`
 - `references/regulatory/china-core.md`
 - `references/regulatory/fda-core.md`
 - `references/cde-fda-differences.md`
