@@ -85,6 +85,7 @@ Typical use:
 
 Repo derivative:
 
+- `references/regulatory/innovative-core.md`
 - `references/innovative-topical-rules.md`
 
 Typical use:

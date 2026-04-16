@@ -11,6 +11,13 @@ These are not binding templates. They are demonstration-grade examples to help:
 - manual QA
 - onboarding colleagues who are new to the skill
 
+The more recent innovative and expanded-indication examples now also show the expected depth for early-study design, including:
+
+- healthy volunteers versus patients
+- SAD or MAD architecture
+- patient PK or MUsT placement
+- progression gates into later studies
+
 ## Example Set
 
 - `worked-examples/acne-combination-dual-region.md`

@@ -56,11 +56,35 @@ For each stage, state:
 - 研究目的
 - 推荐研究类型
 - 推荐受试人群
+- 受试人群选择理由
 - 推荐对照方式
 - 主要终点与关键次要终点
+- 给药设计要点
+- 关键评估项目
 - 样本量思路
 - 是否可跳过或合并
 - 进入下一阶段的门槛
+
+For early-stage work, do not stop at generic labels such as “开展 I 期研究”.
+
+When Phase 1 or early exploratory work is in scope, explicitly state:
+
+- 健康受试者 / 患者 / 先健康受试者后患者
+- 是否需要 SAD
+- 是否需要 MAD
+- 是否需要患者 PK、max-use PK 或 MUsT
+- 递增维度是浓度、给药面积、给药量还是频次
+- 关键安全性和 PK 观察点
+- 触发升级或转段的核心门槛
+
+Suggested detail level for early-stage output:
+
+- `早期总体目标`
+- `先入组人群与理由`
+- `SAD 设计建议`
+- `MAD 或重复给药研究设计建议`
+- `患者 PK / MUsT / 早期信号整合建议`
+- `转入后续探索或确证研究的门槛`
 
 ### 6. 关键专项研究建议
 
@@ -114,6 +138,7 @@ For each key recommendation, include:
 
 - Default to Chinese.
 - Keep the answer structured and strategy-level.
+- If the user asks for more detailed design, expand the early-stage section to strategy-design level rather than staying at slogan level.
 - Do not silently imply certainty that the evidence does not support.
 - If evidence is mixed, say so directly.
 - If the conservative and aggressive paths differ because of one key assumption, name that assumption explicitly.

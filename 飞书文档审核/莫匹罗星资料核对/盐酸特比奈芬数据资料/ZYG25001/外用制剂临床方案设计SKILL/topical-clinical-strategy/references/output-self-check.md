@@ -61,6 +61,15 @@ Check:
 - If the project is innovative, did the answer clearly separate proof-of-concept logic from bridge logic?
 - Did it explain whether the early package is mainly solving human signal, exposure control, or both?
 
+### 8. Early-study design depth
+
+Check:
+
+- If the user asked about early studies, did the answer clearly state healthy volunteers, patients, or a sequential strategy?
+- If SAD was recommended, did the answer explain what the escalation dimension is and what uncertainty SAD is reducing?
+- If MAD or repeat-dose work was recommended, did the answer explain what repeat-dose question is being answered?
+- Did the answer state whether patient PK or MUsT should happen before, inside, or after the first proof-of-concept package?
+
 ## First-Pass Strategy Mode
 
 Use first-pass mode when:
@@ -84,3 +93,4 @@ The answer is not ready if any of the following is true:
 - no major missing evidence is named
 - no evidence type is attached to the main recommendations
 - the answer reads like a protocol synopsis instead of a strategy memo
+- the answer names SAD or MAD but never explains how the early package is architected

@@ -12,18 +12,20 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 5. Read `references/regulatory/china-official-source-index.md` when China official-source provenance or current verification matters.
 6. Read `references/cde-fda-differences.md` when both regions matter.
-7. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
-8. Read `references/psg-strategy.md` when PSG may matter.
-9. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-10. Read `references/output-template.md`.
-11. Read the relevant indication module under `references/indications/`.
-12. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-13. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
-14. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-15. Read `references/output-self-check.md` before finalizing the answer.
-16. Decide whether official web search or registry search is required.
-17. Build the development logic.
-18. Output both conservative and aggressive paths.
+7. Read `references/regulatory/innovative-core.md` when innovative-drug methodology or early clinical pharmacology questions matter.
+8. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
+9. Read `references/early-phase-design-rules.md` when the user asks for detailed early study design.
+10. Read `references/psg-strategy.md` when PSG may matter.
+11. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+12. Read `references/output-template.md`.
+13. Read the relevant indication module under `references/indications/`.
+14. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+15. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+16. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+17. Read `references/output-self-check.md` before finalizing the answer.
+18. Decide whether official web search or registry search is required.
+19. Build the development logic.
+20. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -117,6 +119,14 @@ After collecting inputs and sources, make these judgments in order:
    - exposure-response analysis
    - dose-ranging
    - long-term safety
+7. early-package architecture:
+   - healthy volunteers
+   - patients
+   - sequential healthy volunteers to patients
+   - SAD
+   - MAD
+   - patient PK
+   - integrated PK plus signal design
 
 ## Conservative vs Aggressive Paths
 
@@ -171,6 +181,13 @@ For every key recommendation, include:
 - applicability condition
 
 Default to Chinese for the main answer unless the user asks otherwise.
+
+If the user asks early-design detail, explicitly answer:
+
+- whether healthy volunteers or patients should enter first
+- whether SAD and MAD are needed
+- what each early study is trying to solve
+- what progression criterion moves the program forward
 
 ## Validation Use
 

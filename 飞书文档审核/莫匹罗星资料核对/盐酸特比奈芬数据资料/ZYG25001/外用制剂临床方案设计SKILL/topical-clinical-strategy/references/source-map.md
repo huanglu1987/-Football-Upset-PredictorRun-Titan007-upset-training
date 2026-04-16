@@ -12,6 +12,7 @@ These repo files are the primary knowledge base for normal skill use and should 
 
 - `references/psg-strategy.md`
 - `references/innovative-topical-rules.md`
+- `references/early-phase-design-rules.md`
 - `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
@@ -26,11 +27,13 @@ These repo files are the primary knowledge base for normal skill use and should 
 
 - `references/regulatory/china-core.md`
 - `references/regulatory/china-official-source-index.md`
+- `references/regulatory/innovative-core.md`
 
 ### Useful China Supporting Sources
 
 - `references/innovative-topical-rules.md`
 - `references/regulatory/china-official-source-index.md`
+- `references/regulatory/innovative-core.md`
 
 ### FDA Case Summary Source
 
@@ -90,6 +93,7 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - `references/cde-fda-differences.md`
 - `references/psg-strategy.md`
 - `references/innovative-topical-rules.md`
+- `references/early-phase-design-rules.md`
 - `references/clinicaltrials-strategy.md`
 
 ### Tier 4: Skill QA Layer
@@ -112,6 +116,7 @@ Search official sources when:
 - the user asks what is current or latest
 - PSG is material to the answer
 - a specific product is cited
+- the user asks how innovative-drug early studies should be designed
 - the answer needs links or direct source attribution
 
 ## Registry Query Triggers

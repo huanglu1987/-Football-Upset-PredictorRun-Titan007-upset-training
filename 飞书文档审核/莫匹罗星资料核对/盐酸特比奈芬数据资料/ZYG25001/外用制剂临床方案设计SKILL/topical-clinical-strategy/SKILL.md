@@ -16,14 +16,16 @@ Use this skill to turn product inputs into a structured clinical-development str
 3. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 4. Read `references/regulatory/china-official-source-index.md` when China official-source provenance or current verification matters.
 5. Read `references/cde-fda-differences.md` when both regions matter.
-6. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
-7. Read `references/output-template.md` before drafting the answer.
-8. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-9. Read the matching indication module under `references/indications/`.
-10. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-11. Read `references/known-boundaries.md` before finalizing the answer.
-12. Build the strategy using the decision sequence below.
-13. Output both conservative and aggressive paths.
+6. Read `references/regulatory/innovative-core.md` when innovative-drug methodology or early clinical pharmacology questions matter.
+7. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
+8. Read `references/early-phase-design-rules.md` when the user asks how to design early studies, including healthy volunteers versus patients and SAD or MAD logic.
+9. Read `references/output-template.md` before drafting the answer.
+10. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+11. Read the matching indication module under `references/indications/`.
+12. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+13. Read `references/known-boundaries.md` before finalizing the answer.
+14. Build the strategy using the decision sequence below.
+15. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -101,6 +103,7 @@ Search `ClinicalTrials.gov` when:
 - If author-local raw source files listed in the source map are missing, continue with repo-bundled cards and official browsing instead of blocking.
 - If the user input is sparse, still produce a first-pass strategy and clearly mark uncertainty.
 - If the question drifts into full protocol drafting, use this skill to settle the strategy first and only then expand into protocol-level detail.
+- If the user asks for more design depth, expand the early-stage section to explain study population, SAD or MAD logic, escalation dimensions, core assessments, and progression gates at a strategy-design level.
 
 ## References
 
@@ -110,6 +113,7 @@ Read these as needed:
 - `references/source-map.md`
 - `references/input-template.md`
 - `references/output-template.md`
+- `references/early-phase-design-rules.md`
 - `references/output-self-check.md`
 - `references/psg-strategy.md`
 - `references/innovative-topical-rules.md`
@@ -124,6 +128,7 @@ Read these as needed:
 - `references/regulatory/china-core.md`
 - `references/regulatory/china-official-source-index.md`
 - `references/regulatory/fda-core.md`
+- `references/regulatory/innovative-core.md`
 - `references/cde-fda-differences.md`
 - `references/review-cases/topical-fda-cases.md`
 - `references/indications/acne.md`
