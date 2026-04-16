@@ -9,11 +9,14 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 1. Confirm that the product is within scope.
 2. Collect the minimum input set.
 3. Read `references/source-map.md`.
-4. Read `references/output-template.md`.
-5. Read the relevant indication module under `references/indications/`.
-6. Decide whether official web search is required.
-7. Build the development logic.
-8. Output both conservative and aggressive paths.
+4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
+5. Read `references/cde-fda-differences.md` when both regions matter.
+6. Read `references/output-template.md`.
+7. Read the relevant indication module under `references/indications/`.
+8. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+9. Decide whether official web search is required.
+10. Build the development logic.
+11. Output both conservative and aggressive paths.
 
 ## Scope Check
 

@@ -16,6 +16,10 @@ These files were explicitly provided for this project and should be treated as t
 - `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物临床试验申请临床评价技术指导原则.pdf`
 - `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物暴露-效应关系研究技术指导原则.pdf`
 
+See also:
+
+- `references/regulatory/china-core.md`
+
 ### Useful China Supporting Sources
 
 - `/Users/huanglu/Desktop/临床/皮肤用药指导原则/创新药临床药理学研究技术指导原则.pdf`
@@ -28,6 +32,10 @@ These files were explicitly provided for this project and should be treated as t
 - `/Users/huanglu/Desktop/临床/皮肤用药指导原则/505b(2)临床汇总 .csv`
 
 Use this CSV as a practical precedent layer, not as a substitute for official guidance.
+
+See also:
+
+- `references/review-cases/topical-fda-cases.md`
 
 ## Official Online Sources
 
@@ -53,6 +61,8 @@ Use for the default rule tree.
 
 - CDE/NMPA guidance
 - FDA general guidance
+- `references/regulatory/china-core.md`
+- `references/regulatory/fda-core.md`
 
 ### Tier 2: Review Practice
 
@@ -63,6 +73,7 @@ Use to understand what FDA actually accepted in public cases.
 - labels
 - review packages
 - curated 505(b)(2) case summaries
+- `references/review-cases/topical-fda-cases.md`
 
 ### Tier 3: Supportive Technical Layer
 
@@ -71,6 +82,7 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - PSG
 - topical BE logic
 - Q1/Q2/Q3 and IVRT/IVPT concepts
+- `references/cde-fda-differences.md`
 
 ## Live-Browse Triggers
 

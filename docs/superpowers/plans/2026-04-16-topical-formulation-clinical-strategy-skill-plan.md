@@ -33,11 +33,13 @@
 
 ### Acceptance Criteria
 
-- [ ] 技能目录完成初始化并通过基础校验。
-- [ ] `SKILL.md` 明确触发条件、工作流和输出边界。
-- [ ] `references/` 下具备输入模板、输出模板、资料层地图和四个优先适应症模块。
-- [ ] 技能默认要求输出保守/激进双路径。
-- [ ] 技能明确要求 FDA/最新/PSG/具体品种场景触发联网检索。
+- [x] 技能目录完成初始化并通过基础校验。
+- [x] `SKILL.md` 明确触发条件、工作流和输出边界。
+- [x] `references/` 下具备输入模板、输出模板、资料层地图和四个优先适应症模块。
+- [x] 技能默认要求输出保守/激进双路径。
+- [x] 技能明确要求 FDA/最新/PSG/具体品种场景触发联网检索。
+- [x] 第二轮补充法规依据卡、FDA 审评案例卡和中美差异卡。
+- [x] 仓库层面对该技能目录解除 `.gitignore` 阻断，便于后续上传 GitHub。
 
 ## Technical Approach
 
@@ -60,10 +62,16 @@
     ├── agents/
     │   └── openai.yaml
     └── references/
+        ├── cde-fda-differences.md
         ├── workflow.md
         ├── source-map.md
         ├── input-template.md
         ├── output-template.md
+        ├── regulatory/
+        │   ├── china-core.md
+        │   └── fda-core.md
+        ├── review-cases/
+        │   └── topical-fda-cases.md
         └── indications/
             ├── acne.md
             ├── rosacea.md
@@ -87,9 +95,9 @@
 
 **Tasks**:
 
-- [ ] 使用 `init_skill.py` 初始化 skill 目录
-- [ ] 创建 `agents/openai.yaml`
-- [ ] 建立 `references/` 基础目录
+- [x] 使用 `init_skill.py` 初始化 skill 目录
+- [x] 创建 `agents/openai.yaml`
+- [x] 建立 `references/` 基础目录
 
 **Deliverables**:
 
@@ -102,9 +110,9 @@
 
 **Tasks**:
 
-- [ ] 完成 `SKILL.md`
-- [ ] 写入资料层、决策流程、联网触发条件
-- [ ] 写入输入不足时的处理规则
+- [x] 完成 `SKILL.md`
+- [x] 写入资料层、决策流程、联网触发条件
+- [x] 写入输入不足时的处理规则
 
 **Deliverables**:
 
@@ -116,9 +124,9 @@
 
 **Tasks**:
 
-- [ ] 编写输入模板
-- [ ] 编写输出模板
-- [ ] 在工作流中引用模板文件
+- [x] 编写输入模板
+- [x] 编写输出模板
+- [x] 在工作流中引用模板文件
 
 **Deliverables**:
 
@@ -131,9 +139,9 @@
 
 **Tasks**:
 
-- [ ] 编写本地资料与官方资料地图
-- [ ] 明确中国指导原则、FDA guidance、PSG、公开 review 的层级关系
-- [ ] 明确何时必须联网
+- [x] 编写本地资料与官方资料地图
+- [x] 明确中国指导原则、FDA guidance、PSG、公开 review 的层级关系
+- [x] 明确何时必须联网
 
 **Deliverables**:
 
@@ -145,10 +153,10 @@
 
 **Tasks**:
 
-- [ ] 编写痤疮模块
-- [ ] 编写玫瑰痤疮模块
-- [ ] 编写浅表真菌感染模块
-- [ ] 编写 AGA 模块
+- [x] 编写痤疮模块
+- [x] 编写玫瑰痤疮模块
+- [x] 编写浅表真菌感染模块
+- [x] 编写 AGA 模块
 
 **Deliverables**:
 
@@ -160,14 +168,33 @@
 
 **Tasks**:
 
-- [ ] 运行 `quick_validate.py`
-- [ ] 检查文件层级、frontmatter 和元数据
-- [ ] 记录下一轮需要补充的法规卡、案例卡和 PSG 清单
+- [x] 运行 `quick_validate.py`
+- [x] 检查文件层级、frontmatter 和元数据
+- [x] 记录下一轮需要补充的法规卡、案例卡和 PSG 清单
 
 **Deliverables**:
 
 - 通过校验的最小可用技能
 - 下一轮扩展方向
+
+### Phase 7: 第二轮资料充实与 GitHub 友好化
+
+**Goal**: 把骨架扩展为更适合团队复用和仓库分发的版本
+
+**Tasks**:
+
+- [x] 补充中国核心法规依据卡
+- [x] 补充 FDA 核心法规依据卡
+- [x] 补充 CDE vs FDA 差异卡
+- [x] 补充 FDA 公开审评案例卡
+- [x] 解除该技能目录在 `.gitignore` 中的阻断
+
+**Deliverables**:
+
+- `references/regulatory/` 目录
+- `references/review-cases/` 目录
+- `references/cde-fda-differences.md`
+- GitHub 友好的版本控制配置
 
 ## Risks and Mitigations
 
@@ -182,7 +209,8 @@
 
 ## Next Iteration Candidates
 
-- 增加法规依据卡和典型审评案例卡
-- 增加 CDE vs FDA 差异对照专用 reference
+- 补充更细的 PSG 清单和适应症映射
+- 按适应症增加更多法规卡和失败案例卡
 - 增加 AD、银屑病、脂溢性皮炎等扩展模块
 - 增加 forward-test 用的样例 prompt 集合
+- 当你确定 GitHub 仓库后，补最后的发布与下载说明

@@ -13,10 +13,13 @@ Use this skill to turn product inputs into a structured clinical-development str
 
 1. Normalize the request with `references/input-template.md` if the user input is incomplete.
 2. Read `references/source-map.md` to choose the right evidence layer.
-3. Read `references/output-template.md` before drafting the answer.
-4. Read the matching indication module under `references/indications/`.
-5. Build the strategy using the decision sequence below.
-6. Output both conservative and aggressive paths.
+3. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
+4. Read `references/cde-fda-differences.md` when both regions matter.
+5. Read `references/output-template.md` before drafting the answer.
+6. Read the matching indication module under `references/indications/`.
+7. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+8. Build the strategy using the decision sequence below.
+9. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -94,6 +97,10 @@ Read these as needed:
 - `references/source-map.md`
 - `references/input-template.md`
 - `references/output-template.md`
+- `references/regulatory/china-core.md`
+- `references/regulatory/fda-core.md`
+- `references/cde-fda-differences.md`
+- `references/review-cases/topical-fda-cases.md`
 - `references/indications/acne.md`
 - `references/indications/rosacea.md`
 - `references/indications/superficial-fungal.md`
