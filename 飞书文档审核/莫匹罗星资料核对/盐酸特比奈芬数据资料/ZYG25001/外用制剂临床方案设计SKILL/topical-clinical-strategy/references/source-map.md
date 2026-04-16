@@ -170,7 +170,10 @@ Always read the matching indication module for:
 - atopic dermatitis
 - plaque psoriasis
 - seborrheic dermatitis
+- vitiligo
+- alopecia areata
+- radiation dermatitis
 
-The first four modules currently have the deepest worked-example support. The newer three expanded modules should still be used, but may rely more heavily on current official browsing and general-rule interpretation.
+The first four modules still have the deepest worked-example support. The newer expanded modules should still be used, but some of them rely more heavily on current official browsing, registry precedent, and general-rule interpretation.
 
 Then add official browsing if the user asks for FDA or current position.

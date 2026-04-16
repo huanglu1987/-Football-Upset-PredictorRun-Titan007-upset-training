@@ -137,7 +137,7 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 - 示例 prompts
 - worked examples
 - case library
-- 7 个当前适应症模块：
+- 10 个当前适应症模块：
   - 痤疮
   - 玫瑰痤疮
   - 浅表真菌感染
@@ -145,6 +145,9 @@ bash scripts/install_topical_clinical_strategy_skill.sh
   - AD
   - 银屑病
   - 脂溢性皮炎
+  - 白癜风
+  - 斑秃
+  - 放射性皮炎
 
 在正式对外发布到 GitHub 前，仍建议继续用真实品种做 1 到 2 轮业务内测。
 

@@ -12,6 +12,7 @@ The current version is strongest when:
 - the dosage form is a cream, gel, ointment, lotion, liniment, spray, foam, or film-forming product
 - the user wants strategy-level China, FDA, or dual-region development advice
 - the indication is one of the current seven modules:
+ - the indication is one of the current ten modules:
   - acne
   - rosacea
   - superficial fungal infection
@@ -19,8 +20,11 @@ The current version is strongest when:
   - atopic dermatitis
   - plaque psoriasis
   - seborrheic dermatitis
+  - vitiligo
+  - alopecia areata
+  - radiation dermatitis
 
-The first four modules still have the deepest precedent and worked-example support. The newer three modules are useful now, but they remain somewhat more dependent on general-rule interpretation and current official browsing.
+The first four modules still have the deepest precedent and worked-example support. The newer expanded modules are useful now, but they remain somewhat more dependent on general-rule interpretation, registry precedent, and current official browsing.
 
 ## Moderate-Fit Scenarios
 

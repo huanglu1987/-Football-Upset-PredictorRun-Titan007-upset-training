@@ -23,6 +23,7 @@ Use it when:
 
 - `case-library/indications/aga.md`
 - `case-library/indications/chronic-inflammatory-dermatoses.md`
+- `case-library/indications/pigment-and-focal-hair-autoimmunity.md`
 
 ## By Mechanism / Development Family
 

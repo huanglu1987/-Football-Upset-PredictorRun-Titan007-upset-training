@@ -1,6 +1,6 @@
 ---
 name: topical-clinical-strategy
-description: Design China and FDA clinical development strategies for locally acting topical small-molecule products such as creams, gels, ointments, lotions, sprays, foams, and film-forming products. Use when Codex needs to assess innovative vs improved new-drug paths, compare conservative and aggressive development routes, judge MUsT/max-use PK or bridge needs, or structure Phase 1-3 strategy for indications including acne, rosacea, superficial fungal infection, androgenetic alopecia, atopic dermatitis, plaque psoriasis, and seborrheic dermatitis.
+description: Design China and FDA clinical development strategies for locally acting topical small-molecule products such as creams, gels, ointments, lotions, sprays, foams, and film-forming products. Use when Codex needs to assess innovative vs improved new-drug paths, compare conservative and aggressive development routes, judge MUsT/max-use PK or bridge needs, or structure Phase 1-3 strategy for indications including acne, rosacea, superficial fungal infection, androgenetic alopecia, atopic dermatitis, plaque psoriasis, seborrheic dermatitis, vitiligo, alopecia areata, and radiation dermatitis.
 ---
 
 # Topical Clinical Strategy
@@ -145,3 +145,6 @@ Read these as needed:
 - `references/indications/ad.md`
 - `references/indications/psoriasis.md`
 - `references/indications/seborrheic-dermatitis.md`
+- `references/indications/vitiligo.md`
+- `references/indications/alopecia-areata.md`
+- `references/indications/radiation-dermatitis.md`

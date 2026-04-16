@@ -210,3 +210,4 @@ Use `references/validation-results-round4.md` to understand what the first manua
 Use `references/validation-results-round7.md` to understand release-prep and business-acceptance findings.
 Use `references/validation-results-round10.md` to understand the three-scenario real-run validation findings.
 Use `references/worked-examples/index.md` to align style and depth for representative scenarios.
+Use `references/case-library/index.md` to route newer indication families for teammates or first-time users.
