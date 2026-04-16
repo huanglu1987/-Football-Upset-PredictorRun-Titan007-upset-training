@@ -15,7 +15,17 @@ State:
 - 当前推荐主路径
 - 最大监管风险
 
-### 2. 开发前提判断
+### 2. 判断级别与关键假设
+
+State:
+
+- 当前判断级别：正式策略判断 / 第一轮策略判断
+- 关键假设
+- 最影响路径变化的高优先级缺口
+
+Use this section especially when the prompt is sparse.
+
+### 3. 开发前提判断
 
 State:
 
@@ -24,7 +34,7 @@ State:
 - 系统暴露关注程度及理由
 - 当前最影响路径选择的前提条件
 
-### 3. 保守路径 vs 激进路径
+### 4. 保守路径 vs 激进路径
 
 For each path, state:
 
@@ -39,7 +49,7 @@ Then state:
 - 当前更推荐哪一路径
 - 为什么
 
-### 4. 分期开发策略
+### 5. 分期开发策略
 
 For each stage, state:
 
@@ -52,7 +62,7 @@ For each stage, state:
 - 是否可跳过或合并
 - 进入下一阶段的门槛
 
-### 5. 关键专项研究建议
+### 6. 关键专项研究建议
 
 Address when relevant:
 
@@ -63,7 +73,14 @@ Address when relevant:
 - PK bridge / relative BA
 - 剂量探索 / 成分贡献
 
-### 6. CDE vs FDA 差异提示
+### 7. CDE vs FDA 差异提示
+
+Only use this as a full section when:
+
+- both regions are in scope
+- or the user explicitly asks for a comparison
+
+If the user asks for a single-region strategy, this can be reduced to a short note about why the other region might differ.
 
 Compare at least:
 
@@ -75,7 +92,7 @@ Compare at least:
 - 终点与证据强度
 - 沟通建议
 
-### 7. 当前证据缺口清单
+### 8. 当前证据缺口清单
 
 Split into:
 
@@ -85,7 +102,7 @@ Split into:
 
 For each gap, explain what decision it affects.
 
-### 8. 依据说明
+### 9. 依据说明
 
 For each key recommendation, include:
 

@@ -214,6 +214,23 @@
 - `references/validation-prompts.md`
 - 更稳健的 `SKILL.md` / `workflow.md` / `source-map.md`
 
+### Phase 9: 第四轮实战验证修正
+
+**Goal**: 通过首轮人工回测发现输出层缺口，并把这些缺口固化进技能自身
+
+**Tasks**:
+
+- [x] 记录首轮人工验证结果
+- [x] 增加输出自检清单
+- [x] 强化“第一轮策略判断”模式
+- [x] 修正单区域输出时不应机械强制中美对照的问题
+
+**Deliverables**:
+
+- `references/output-self-check.md`
+- `references/validation-results-round4.md`
+- 更稳健的 `output-template.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**

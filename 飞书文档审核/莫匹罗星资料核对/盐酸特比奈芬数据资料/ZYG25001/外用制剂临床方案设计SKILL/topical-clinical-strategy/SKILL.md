@@ -97,9 +97,11 @@ Read these as needed:
 - `references/source-map.md`
 - `references/input-template.md`
 - `references/output-template.md`
+- `references/output-self-check.md`
 - `references/psg-strategy.md`
 - `references/failure-patterns.md`
 - `references/validation-prompts.md`
+- `references/validation-results-round4.md`
 - `references/regulatory/china-core.md`
 - `references/regulatory/fda-core.md`
 - `references/cde-fda-differences.md`

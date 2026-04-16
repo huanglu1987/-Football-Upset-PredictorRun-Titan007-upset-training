@@ -16,9 +16,10 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 8. Read the relevant indication module under `references/indications/`.
 9. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
 10. Read `references/failure-patterns.md` as a pre-answer sanity check.
-11. Decide whether official web search is required.
-12. Build the development logic.
-13. Output both conservative and aggressive paths.
+11. Read `references/output-self-check.md` before finalizing the answer.
+12. Decide whether official web search is required.
+13. Build the development logic.
+14. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -160,3 +161,4 @@ Default to Chinese for the main answer unless the user asks otherwise.
 ## Validation Use
 
 Use `references/validation-prompts.md` for manual testing and future team trial runs.
+Use `references/validation-results-round4.md` to understand what the first manual validation round already exposed.
