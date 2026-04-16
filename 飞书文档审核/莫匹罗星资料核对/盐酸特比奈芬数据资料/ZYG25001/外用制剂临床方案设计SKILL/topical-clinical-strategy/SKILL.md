@@ -16,10 +16,12 @@ Use this skill to turn product inputs into a structured clinical-development str
 3. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 4. Read `references/cde-fda-differences.md` when both regions matter.
 5. Read `references/output-template.md` before drafting the answer.
-6. Read the matching indication module under `references/indications/`.
-7. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-8. Build the strategy using the decision sequence below.
-9. Output both conservative and aggressive paths.
+6. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+7. Read the matching indication module under `references/indications/`.
+8. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+9. Read `references/known-boundaries.md` before finalizing the answer.
+10. Build the strategy using the decision sequence below.
+11. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -49,7 +51,9 @@ Use evidence in this order:
 
 1. formal CDE/NMPA and FDA guidance
 2. FDA public reviews, labels, review packages
-3. PSG
+3. targeted supportive layers:
+   - PSG for FDA topical technical expectations
+   - ClinicalTrials.gov for same-target or same-indication design precedent
 4. curated case summaries
 5. general development logic
 
@@ -72,6 +76,12 @@ Restrict browsing to official sources when possible:
 - `cde.org.cn`
 - `nmpa.gov.cn`
 
+Search `ClinicalTrials.gov` when:
+
+- same-target or same-indication trial-design precedent is unclear
+- oral-to-topical projects lack direct topical precedent
+- the answer needs help with comparator, duration, endpoint timing, or long-term extension patterns
+
 ## Output Rules
 
 - Always provide both conservative and aggressive paths unless the user explicitly asks for only one.
@@ -86,6 +96,7 @@ Restrict browsing to official sources when possible:
 
 - Do not stop solely because the target strength lacks prior topical precedent.
 - Treat missing topical-strength precedent as a non-blocking risk signal.
+- If author-local raw source files listed in the source map are missing, continue with repo-bundled cards and official browsing instead of blocking.
 - If the user input is sparse, still produce a first-pass strategy and clearly mark uncertainty.
 - If the question drifts into full protocol drafting, use this skill to settle the strategy first and only then expand into protocol-level detail.
 
@@ -99,9 +110,12 @@ Read these as needed:
 - `references/output-template.md`
 - `references/output-self-check.md`
 - `references/psg-strategy.md`
+- `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
+- `references/known-boundaries.md`
 - `references/validation-prompts.md`
 - `references/validation-results-round4.md`
+- `references/validation-results-round7.md`
 - `references/worked-examples/index.md`
 - `references/regulatory/china-core.md`
 - `references/regulatory/fda-core.md`

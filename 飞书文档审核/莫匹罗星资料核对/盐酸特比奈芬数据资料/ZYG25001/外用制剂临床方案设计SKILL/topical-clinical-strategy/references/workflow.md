@@ -12,15 +12,16 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 5. Read `references/cde-fda-differences.md` when both regions matter.
 6. Read `references/psg-strategy.md` when PSG may matter.
-7. Read `references/output-template.md`.
-8. Read the relevant indication module under `references/indications/`.
-9. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-10. Read `references/failure-patterns.md` as a pre-answer sanity check.
-11. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-12. Read `references/output-self-check.md` before finalizing the answer.
-13. Decide whether official web search is required.
-14. Build the development logic.
-15. Output both conservative and aggressive paths.
+7. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+8. Read `references/output-template.md`.
+9. Read the relevant indication module under `references/indications/`.
+10. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+11. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+12. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+13. Read `references/output-self-check.md` before finalizing the answer.
+14. Decide whether official web search or registry search is required.
+15. Build the development logic.
+16. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -50,13 +51,17 @@ At minimum, resolve:
 
 Do not stop solely because the target concentration lacks prior topical precedent. Treat that as a non-blocking risk signal and adjust the conservative path accordingly.
 
+If author-local raw sources are unavailable on the current machine, continue with the repo-bundled reference cards plus official browsing when needed.
+
 ## Evidence Ladder
 
 Use evidence in this order:
 
 1. formal CDE/NMPA guidance and FDA guidance
 2. FDA public review documents, review packages, labels
-3. PSG
+3. targeted supportive layers:
+   - PSG for FDA topical technical expectations
+   - ClinicalTrials.gov for same-target or same-indication design precedent
 4. curated case summaries
 5. general development logic
 
@@ -78,6 +83,12 @@ When browsing, prefer official sources only:
 - `accessdata.fda.gov`
 - `cde.org.cn`
 - `nmpa.gov.cn`
+
+Registry search is recommended when:
+
+- same-target or same-indication trial-design precedent is unclear
+- the answer needs help with duration, comparator, endpoint timing, or extension-pattern judgment
+- oral-to-topical projects lack direct topical precedent
 
 ## Strategy Logic
 
@@ -163,4 +174,5 @@ Default to Chinese for the main answer unless the user asks otherwise.
 
 Use `references/validation-prompts.md` for manual testing and future team trial runs.
 Use `references/validation-results-round4.md` to understand what the first manual validation round already exposed.
+Use `references/validation-results-round7.md` to understand release-prep and business-acceptance findings.
 Use `references/worked-examples/index.md` to align style and depth for representative scenarios.

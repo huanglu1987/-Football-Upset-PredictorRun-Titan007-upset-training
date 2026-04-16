@@ -36,6 +36,7 @@ Check:
 - Are key recommendations labeled by evidence type?
 - Is any single FDA case being overstated as a rule?
 - If PSG influenced the answer, did the answer explain that PSG is supportive rather than controlling?
+- If ClinicalTrials.gov influenced the answer, did the answer describe it as design precedent rather than regulatory requirement?
 
 ### 5. Indication fit
 

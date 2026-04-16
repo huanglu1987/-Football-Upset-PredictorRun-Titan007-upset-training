@@ -6,15 +6,20 @@ Use this file to decide which sources to consult first and which sources require
 
 ## Local Core Sources
 
-These files were explicitly provided for this project and should be treated as the primary local knowledge base.
+These files were explicitly provided for this project and should be treated as the primary authoring-time local knowledge base.
+
+If these local absolute paths do not exist on the current machine, fall back to the repo-bundled reference cards and official online sources instead of blocking the answer.
 
 ### Skill QA and Support References
 
 - `references/psg-strategy.md`
+- `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
+- `references/known-boundaries.md`
 - `references/validation-prompts.md`
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
+- `references/validation-results-round7.md`
 - `references/worked-examples/index.md`
 
 ### China Core Guidance
@@ -56,6 +61,7 @@ Browse these when the task requires current FDA or CDE support.
 - PSG portal: `https://www.fda.gov/drugs/guidances-drugs/product-specific-guidances-generic-drug-development`
 - Drugs@FDA and review docs: `https://www.accessdata.fda.gov/scripts/cder/daf/`
 - Review package host: `https://www.accessdata.fda.gov/drugsatfda_docs/`
+- ClinicalTrials.gov: `https://clinicaltrials.gov/`
 
 ### China Official Sources
 
@@ -91,17 +97,21 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - PSG
 - topical BE logic
 - Q1/Q2/Q3 and IVRT/IVPT concepts
+- `ClinicalTrials.gov` when same-target or same-indication design precedent matters
 - `references/cde-fda-differences.md`
 - `references/psg-strategy.md`
+- `references/clinicaltrials-strategy.md`
 
 ### Tier 4: Skill QA Layer
 
 Use to keep answers stable and testable.
 
 - `references/failure-patterns.md`
+- `references/known-boundaries.md`
 - `references/validation-prompts.md`
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
+- `references/validation-results-round7.md`
 - `references/worked-examples/index.md`
 
 ## Live-Browse Triggers
@@ -113,6 +123,15 @@ Search official sources when:
 - PSG is material to the answer
 - a specific product is cited
 - the answer needs links or direct source attribution
+
+## Registry Query Triggers
+
+Search `ClinicalTrials.gov` when:
+
+- same-target or same-indication design precedent is unclear
+- the answer needs help with endpoint timing, duration, or comparator patterns
+- oral-to-topical projects lack direct topical precedent
+- the user explicitly asks about same-target or same-class trial designs
 
 ## High-Value FDA Topical Review Examples
 

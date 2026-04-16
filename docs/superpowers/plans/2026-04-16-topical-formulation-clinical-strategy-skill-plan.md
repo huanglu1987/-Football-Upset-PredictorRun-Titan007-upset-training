@@ -267,6 +267,25 @@
 - `references/worked-examples/terbinafine-topical-dual-region.md`
 - `references/worked-examples/minoxidil-optimization-dual-region.md`
 
+### Phase 12: 第七轮封版前验收与发布准备
+
+**Goal**: 在不实际发布 GitHub 的前提下，把业务验收、已知边界、ClinicalTrials 先例层和发布前检查项补齐
+
+**Tasks**:
+
+- [x] 记录第七轮业务验收与发布准备结论
+- [x] 增加已知边界/不适用场景说明
+- [x] 增加 `ClinicalTrials.gov` 设计先例层说明
+- [x] 增加 GitHub 发布前检查清单
+- [x] 把以上入口接回主技能工作流和使用说明
+
+**Deliverables**:
+
+- `references/validation-results-round7.md`
+- `references/known-boundaries.md`
+- `references/clinicaltrials-strategy.md`
+- `docs/superpowers/guides/topical-clinical-strategy-github-release-checklist.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**
@@ -283,4 +302,6 @@
 - 补充更细的 PSG 清单和适应症映射
 - 按适应症增加更多法规卡和失败案例卡
 - 增加 AD、银屑病、脂溢性皮炎等扩展模块
-- 当你确定 GitHub 仓库后，补最后的发布与下载说明
+- 视团队需要把 China-side public registry 也做成独立资料层
+- 决定本地原始 PDF / CSV 是否需要生成 repo-safe 摘要或索引文件
+- 当你确定 GitHub 仓库后，执行最后的发布动作

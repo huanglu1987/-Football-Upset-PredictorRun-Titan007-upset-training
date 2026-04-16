@@ -10,8 +10,8 @@
 
 如果只是阅读技能结构，可以直接查看：
 
-- [SKILL.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/SKILL.md)
-- [workflow.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/workflow.md)
+- [SKILL.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/SKILL.md)
+- [workflow.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/workflow.md)
 
 ## 2. 安装到本机 Codex
 
@@ -47,11 +47,11 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 
 初次试用建议直接用已经整理好的验证 prompt：
 
-- [validation-prompts.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/validation-prompts.md)
+- [validation-prompts.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/validation-prompts.md)
 
 如果想快速理解“好答案大致应该长什么样”，先看这些示范案例：
 
-- [worked-examples/index.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/worked-examples/index.md)
+- [worked-examples/index.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/worked-examples/index.md)
 
 ## 5. 建议的试用顺序
 
@@ -74,13 +74,19 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 
 法规层：
 
-- [china-core.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/regulatory/china-core.md)
-- [fda-core.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/regulatory/fda-core.md)
+- [china-core.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/regulatory/china-core.md)
+- [fda-core.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/regulatory/fda-core.md)
 
 稳定性与质控：
 
-- [failure-patterns.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/failure-patterns.md)
-- [output-self-check.md](/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/output-self-check.md)
+- [failure-patterns.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/failure-patterns.md)
+- [output-self-check.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/output-self-check.md)
+- [known-boundaries.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/known-boundaries.md)
+- [clinicaltrials-strategy.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/clinicaltrials-strategy.md)
+
+发布准备：
+
+- [GitHub 发布前检查清单](./topical-clinical-strategy-github-release-checklist.md)
 
 ## 8. 当前状态
 
@@ -94,3 +100,5 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 - worked examples
 
 在正式对外发布到 GitHub 前，仍建议继续用真实品种做 1 到 2 轮业务内测。
+
+同时建议先阅读 `known-boundaries.md`，因为当前版本虽然已经可内测，但仍有本地原始资料依赖和 GitHub 文档可移植性两类发布前检查项。
