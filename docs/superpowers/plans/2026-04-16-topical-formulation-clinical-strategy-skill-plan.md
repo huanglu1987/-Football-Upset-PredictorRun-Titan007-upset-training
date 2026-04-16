@@ -196,6 +196,24 @@
 - `references/cde-fda-differences.md`
 - GitHub 友好的版本控制配置
 
+### Phase 8: 第三轮稳健性增强
+
+**Goal**: 提升技能在团队试用阶段的稳定性、可解释性和可验证性
+
+**Tasks**:
+
+- [x] 增加 PSG 使用策略说明
+- [x] 增加常见失败模式清单
+- [x] 增加验证用 prompts 集
+- [x] 把以上内容接入主技能工作流
+
+**Deliverables**:
+
+- `references/psg-strategy.md`
+- `references/failure-patterns.md`
+- `references/validation-prompts.md`
+- 更稳健的 `SKILL.md` / `workflow.md` / `source-map.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**
@@ -212,5 +230,4 @@
 - 补充更细的 PSG 清单和适应症映射
 - 按适应症增加更多法规卡和失败案例卡
 - 增加 AD、银屑病、脂溢性皮炎等扩展模块
-- 增加 forward-test 用的样例 prompt 集合
 - 当你确定 GitHub 仓库后，补最后的发布与下载说明

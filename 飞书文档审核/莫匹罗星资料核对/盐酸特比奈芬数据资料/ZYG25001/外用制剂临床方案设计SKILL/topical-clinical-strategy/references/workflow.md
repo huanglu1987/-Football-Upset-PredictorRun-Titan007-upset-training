@@ -11,12 +11,14 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 3. Read `references/source-map.md`.
 4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 5. Read `references/cde-fda-differences.md` when both regions matter.
-6. Read `references/output-template.md`.
-7. Read the relevant indication module under `references/indications/`.
-8. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-9. Decide whether official web search is required.
-10. Build the development logic.
-11. Output both conservative and aggressive paths.
+6. Read `references/psg-strategy.md` when PSG may matter.
+7. Read `references/output-template.md`.
+8. Read the relevant indication module under `references/indications/`.
+9. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+10. Read `references/failure-patterns.md` as a pre-answer sanity check.
+11. Decide whether official web search is required.
+12. Build the development logic.
+13. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -154,3 +156,7 @@ For every key recommendation, include:
 - applicability condition
 
 Default to Chinese for the main answer unless the user asks otherwise.
+
+## Validation Use
+
+Use `references/validation-prompts.md` for manual testing and future team trial runs.

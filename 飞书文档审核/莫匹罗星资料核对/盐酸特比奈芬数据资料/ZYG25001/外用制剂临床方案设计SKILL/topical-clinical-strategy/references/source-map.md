@@ -8,6 +8,12 @@ Use this file to decide which sources to consult first and which sources require
 
 These files were explicitly provided for this project and should be treated as the primary local knowledge base.
 
+### Skill QA and Support References
+
+- `references/psg-strategy.md`
+- `references/failure-patterns.md`
+- `references/validation-prompts.md`
+
 ### China Core Guidance
 
 - `/Users/huanglu/Desktop/临床/皮肤用药指导原则/局部给药局部起效的药物临床试验指导原则.pdf`
@@ -83,6 +89,14 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - topical BE logic
 - Q1/Q2/Q3 and IVRT/IVPT concepts
 - `references/cde-fda-differences.md`
+- `references/psg-strategy.md`
+
+### Tier 4: Skill QA Layer
+
+Use to keep answers stable and testable.
+
+- `references/failure-patterns.md`
+- `references/validation-prompts.md`
 
 ## Live-Browse Triggers
 
