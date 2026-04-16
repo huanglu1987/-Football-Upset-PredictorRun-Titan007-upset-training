@@ -16,6 +16,13 @@ Use this template when the user provides incomplete product information or when 
 - `注册路径初判`
 - `已有前期数据概况`
 
+If the product is a film-forming solution, record the dosage form explicitly as:
+
+- `成膜溶液`
+- `涂膜剂`
+
+Do not collapse it into a generic `溶液`.
+
 ## Strongly Recommended Inputs
 
 - `既往上市基础`
@@ -24,6 +31,13 @@ Use this template when the user provides incomplete product information or when 
 - `CMC/制剂关键点`
 - `主要监管担忧`
 - `计划对照方式`
+
+If the dosage form is film-forming or membrane-forming, also try to collect:
+
+- `成膜时间/干燥时间`
+- `膜层完整性与残留`
+- `局部滞留或缓释依据`
+- `次级转移或摩擦脱落风险`
 
 ## Optional Enrichment
 
@@ -58,6 +72,7 @@ Use this template when the user provides incomplete product information or when 
 - 早期疗效信号：
 
 CMC/制剂关键点：
+成膜相关关键点（如适用）：
 主要监管担忧：
 计划对照方式：
 时间或预算约束：

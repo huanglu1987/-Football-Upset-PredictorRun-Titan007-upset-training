@@ -20,6 +20,7 @@ They are defined by:
 ## Closest Current Example
 
 - `worked-examples/aga-topical-finasteride-risk.md`
+- `worked-examples/dutasteride-film-forming-aga-cn-synopsis.md`
 
 ## How To Apply It To Dutasteride-Like Projects
 
@@ -29,6 +30,7 @@ Use the finasteride-risk example as the base logic, then strengthen:
 - DHT suppression monitoring
 - repeat-dose accumulation concern
 - conservative long-term safety framing
+- formulation-specific film retention, residue, and transfer-control thinking when the product is film-forming
 
 Because dutasteride-like logic may carry a stronger or longer systemic effect concern, do not simply reuse a minoxidil-style optimization path.
 

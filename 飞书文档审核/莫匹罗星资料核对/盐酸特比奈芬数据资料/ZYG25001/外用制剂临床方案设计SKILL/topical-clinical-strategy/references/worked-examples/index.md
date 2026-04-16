@@ -18,6 +18,12 @@ The more recent innovative and expanded-indication examples now also show the ex
 - patient PK or MUsT placement
 - progression gates into later studies
 
+The newest synopsis-depth worked example also shows how to structure:
+
+- study-level architecture
+- risk-control points that are specific to film-forming products
+- research-sequence writing that is closer to internal protocol synopsis depth
+
 For quicker teammate navigation by disease family or mechanism family, use:
 
 - `references/case-library/index.md`
@@ -35,6 +41,7 @@ For quicker teammate navigation by disease family or mechanism family, use:
 - `worked-examples/vitiligo-facial-nonsegmental-dual-region.md`
 - `worked-examples/alopecia-areata-patchy-cn.md`
 - `worked-examples/radiation-dermatitis-prevention-cn.md`
+- `worked-examples/dutasteride-film-forming-aga-cn-synopsis.md`
 
 ## How to Use
 

@@ -14,6 +14,7 @@ These repo files are the primary knowledge base for normal skill use and should 
 - `references/innovative-topical-rules.md`
 - `references/early-phase-design-rules.md`
 - `references/clinicaltrials-strategy.md`
+- `references/formulations/film-forming-solution.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
 - `references/synopsis-template.md`
@@ -99,6 +100,7 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - `references/innovative-topical-rules.md`
 - `references/early-phase-design-rules.md`
 - `references/clinicaltrials-strategy.md`
+- `references/formulations/film-forming-solution.md`
 - `references/synopsis-template.md`
 
 ### Tier 4: Skill QA Layer
@@ -120,6 +122,7 @@ For teammate-friendly usage after downloading the repo:
 - start from `references/case-library/index.md` if the user wants the closest family pattern quickly
 - use `references/output-template.md` for strategy mode
 - use `references/synopsis-template.md` for internal study-architecture drafting
+- use `references/formulations/film-forming-solution.md` when the product is a film-forming topical such as 涂膜剂 / 成膜溶液
 
 ## Live-Browse Triggers
 

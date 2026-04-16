@@ -22,13 +22,14 @@ Use this skill to turn product inputs into a structured clinical-development str
 9. Read `references/regulatory/china-innovative-methods.md` when China-side innovative-drug methods detail matters.
 10. Read `references/output-template.md` before drafting the answer.
 11. Read `references/synopsis-template.md` when the user asks for study-architecture detail.
-12. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-13. Read the matching indication module under `references/indications/`.
-14. Read `references/case-library/index.md` when a teammate-friendly family pattern or closest-case routing would help.
-15. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-16. Read `references/known-boundaries.md` before finalizing the answer.
-17. Build the strategy using the decision sequence below.
-18. Output both conservative and aggressive paths.
+12. Read `references/formulations/film-forming-solution.md` when the dosage form is a film-forming solution, film-forming topical, or membrane-forming liquid.
+13. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+14. Read the matching indication module under `references/indications/`.
+15. Read `references/case-library/index.md` when a teammate-friendly family pattern or closest-case routing would help.
+16. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+17. Read `references/known-boundaries.md` before finalizing the answer.
+18. Build the strategy using the decision sequence below.
+19. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -123,6 +124,7 @@ Read these as needed:
 - `references/psg-strategy.md`
 - `references/innovative-topical-rules.md`
 - `references/clinicaltrials-strategy.md`
+- `references/formulations/film-forming-solution.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
 - `references/validation-prompts.md`

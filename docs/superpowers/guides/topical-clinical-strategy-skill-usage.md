@@ -54,6 +54,13 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 - [worked-examples/index.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/worked-examples/index.md)
 - [case-library/index.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/case-library/index.md)
 
+如果当前项目是 `涂膜剂 / 成膜溶液`，建议先看：
+
+- [film-forming-solution.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/formulations/film-forming-solution.md)
+- [dutasteride-film-forming-aga-cn-synopsis.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/worked-examples/dutasteride-film-forming-aga-cn-synopsis.md)
+
+录入时请把剂型单独写成 `成膜溶液` 或 `涂膜剂`，不要简化写成普通 `溶液`。
+
 ## 5. 建议的试用顺序
 
 1. 先看 `SKILL.md`
@@ -113,6 +120,7 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 - [output-self-check.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/output-self-check.md)
 - [known-boundaries.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/known-boundaries.md)
 - [clinicaltrials-strategy.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/clinicaltrials-strategy.md)
+- [film-forming-solution.md](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/formulations/film-forming-solution.md)
 
 案例导航：
 

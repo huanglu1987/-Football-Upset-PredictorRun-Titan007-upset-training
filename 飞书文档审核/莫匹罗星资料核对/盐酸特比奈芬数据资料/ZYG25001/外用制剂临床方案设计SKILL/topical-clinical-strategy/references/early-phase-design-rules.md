@@ -75,6 +75,7 @@ For topical products, “dose escalation” may involve one or more of:
 - application amount escalation
 - treated surface-area escalation
 - occluded versus non-occluded use, if clinically relevant
+- drying-time, film-load, or retained-residue considerations for film-forming products
 
 Do not assume SAD only means increasing milligram strength in the classical oral-drug sense.
 
@@ -147,6 +148,7 @@ When recommending MAD, the answer should usually specify:
 - diseased skin may alter absorption
 - healthy-volunteer PK would not be enough to justify later patient dosing
 - a proof-of-concept study would otherwise be under-informed on exposure
+- the dosage form may create local retention or depot behavior that only becomes meaningful after repeated patient use
 
 ### Add max-use PK or MUsT logic early when
 
@@ -154,6 +156,7 @@ When recommending MAD, the answer should usually specify:
 - chronic or widespread use is intended
 - systemic safety is a live risk, even for a locally acting product
 - FDA strategy is in scope and exposure-control arguments matter
+- film-forming or slow-release topical behavior may increase concern about cumulative exposure under real-use conditions
 
 ## Conservative Early Package Pattern
 
@@ -195,3 +198,8 @@ If the user asks for early-study design detail, the final answer should name:
 - whether MAD is recommended and why
 - whether patient PK or MUsT should sit before or inside proof-of-concept work
 - what would trigger progression to the next stage
+
+If the product is film-forming, also name:
+
+- whether single-dose PK is likely to understate repeat-dose accumulation risk
+- whether drying behavior, transfer risk, or residue persistence needs to be checked in early patient studies

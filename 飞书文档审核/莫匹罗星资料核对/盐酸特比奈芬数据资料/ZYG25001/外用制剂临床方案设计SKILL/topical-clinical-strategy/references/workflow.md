@@ -17,18 +17,19 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 9. Read `references/early-phase-design-rules.md` when the user asks for detailed early study design.
 10. Read `references/regulatory/china-innovative-methods.md` when China-side innovative-drug methods detail matters.
 11. Read `references/psg-strategy.md` when PSG may matter.
-12. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-13. Read `references/output-template.md`.
-14. Read `references/synopsis-template.md` when a more detailed study-architecture answer is needed.
-15. Read the relevant indication module under `references/indications/`.
-16. Read `references/case-library/index.md` when a family-based routing shortcut would help a teammate or reviewer.
-17. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-18. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
-19. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-20. Read `references/output-self-check.md` before finalizing the answer.
-21. Decide whether official web search or registry search is required.
-22. Build the development logic.
-23. Output both conservative and aggressive paths.
+12. Read `references/formulations/film-forming-solution.md` when the dosage form is a film-forming solution or other in-situ film-forming topical.
+13. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+14. Read `references/output-template.md`.
+15. Read `references/synopsis-template.md` when a more detailed study-architecture answer is needed.
+16. Read the relevant indication module under `references/indications/`.
+17. Read `references/case-library/index.md` when a family-based routing shortcut would help a teammate or reviewer.
+18. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+19. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+20. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+21. Read `references/output-self-check.md` before finalizing the answer.
+22. Decide whether official web search or registry search is required.
+23. Build the development logic.
+24. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -115,7 +116,8 @@ After collecting inputs and sources, make these judgments in order:
    - potentially meaningful
 5. formulation complexity:
    - conventional semisolid
-   - spray / foam / film-forming
+   - spray / foam
+   - film-forming solution or membrane-forming topical as a distinct dosage-form class
    - modified delivery or release
 6. need for:
    - MUsT or max-use PK
@@ -202,6 +204,12 @@ If the user asks for synopsis depth, also answer:
 - key entry direction rather than full entry text
 - risk-control points
 - go/no-go gates
+
+If the dosage form is film-forming, also answer:
+
+- whether film formation materially changes local residence or systemic accumulation risk
+- whether drying time, residue, secondary transfer, or peel-off behavior could affect study execution
+- whether repeated-application PK should be prioritized over a larger classical SAD package
 
 ## Validation Use
 
