@@ -95,9 +95,18 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 - 技能主工作流
 - 中美法规卡
 - FDA 审评案例卡
+- 外用创新药规则层
 - 失败模式与输出自检
 - 示例 prompts
 - worked examples
+- 7 个当前适应症模块：
+  - 痤疮
+  - 玫瑰痤疮
+  - 浅表真菌感染
+  - AGA
+  - AD
+  - 银屑病
+  - 脂溢性皮炎
 
 在正式对外发布到 GitHub 前，仍建议继续用真实品种做 1 到 2 轮业务内测。
 

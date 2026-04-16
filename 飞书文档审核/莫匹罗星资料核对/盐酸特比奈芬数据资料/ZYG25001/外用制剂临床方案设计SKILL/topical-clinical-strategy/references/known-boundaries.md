@@ -11,20 +11,27 @@ The current version is strongest when:
 - the product is a skin-applied, locally acting small-molecule drug
 - the dosage form is a cream, gel, ointment, lotion, liniment, spray, foam, or film-forming product
 - the user wants strategy-level China, FDA, or dual-region development advice
-- the indication is one of the four deep modules:
+- the indication is one of the current seven modules:
   - acne
   - rosacea
   - superficial fungal infection
   - AGA
+  - atopic dermatitis
+  - plaque psoriasis
+  - seborrheic dermatitis
+
+The first four modules still have the deepest precedent and worked-example support. The newer three modules are useful now, but they remain somewhat more dependent on general-rule interpretation and current official browsing.
 
 ## Moderate-Fit Scenarios
 
 The skill can still help, but answers should usually stay in first-pass strategy mode, when:
 
-- the indication is outside the four deep modules
+- the indication is outside the current seven modules
 - the formulation is within scope but highly novel in delivery behavior
 - the active ingredient has only oral precedent and little topical history
 - the target strength is largely hypothesis-driven
+
+The skill can also help with innovative-topical projects, but innovative-drug case precedent is still shallower than improved-new-drug precedent.
 
 ## Current Hard Boundaries
 

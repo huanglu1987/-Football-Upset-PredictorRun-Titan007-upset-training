@@ -286,6 +286,26 @@
 - `references/clinicaltrials-strategy.md`
 - `docs/superpowers/guides/topical-clinical-strategy-github-release-checklist.md`
 
+### Phase 13: 第八轮适应症扩展与创新药细化
+
+**Goal**: 在保持当前结构稳定的前提下，先扩展 3 个常见适应症模块，再把外用创新药逻辑从改良型新药逻辑中单独做细
+
+**Tasks**:
+
+- [x] 增加 AD 模块
+- [x] 增加银屑病模块
+- [x] 增加脂溢性皮炎模块
+- [x] 增加外用创新药规则文件
+- [x] 把新模块和新规则接回主工作流、资料地图和边界说明
+- [x] 增加对应验证 prompts
+
+**Deliverables**:
+
+- `references/indications/ad.md`
+- `references/indications/psoriasis.md`
+- `references/indications/seborrheic-dermatitis.md`
+- `references/innovative-topical-rules.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**

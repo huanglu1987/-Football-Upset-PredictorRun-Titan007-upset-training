@@ -130,6 +130,54 @@ Why this test matters:
 - tests whether the aggressive path is allowed in a bounded way
 - tests whether long-horizon AGA logic remains intact
 
+## Prompt 11: AD Nonsteroidal Innovation Case
+
+```text
+请评估一个外用非甾体小分子创新药用于轻中度特应性皮炎的中美临床开发路径。当前仅有非临床药效和一定局部耐受数据，没有人体 PK。希望知道早期临床应如何设计，以及保守和激进路径分别怎么走。
+```
+
+Why this test matters:
+
+- tests innovative-topical rather than bridge-heavy logic
+- tests AD itch and chronic-use reasoning
+- tests whether the answer avoids pretending the program is already pivotal-ready
+
+## Prompt 12: Psoriasis Limited-BSA Topical Case
+
+```text
+某外用小分子乳膏拟用于斑块状银屑病，目标人群是轻中度、有限 BSA 人群。请给出中国和 FDA 双路径开发建议，并重点说明是否需要最大使用 PK、长期安全和剂量探索。
+```
+
+Why this test matters:
+
+- tests limited-BSA topical psoriasis logic
+- tests whether the answer separates topical from systemic psoriasis expectations
+- tests how long-term safety and maximal-use PK are balanced
+
+## Prompt 13: Seborrheic Dermatitis Foam Case
+
+```text
+请设计一个外用泡沫剂用于脂溢性皮炎的临床开发策略，先美国后中国。项目希望覆盖头皮和面部，强调起效快和依从性提升。请输出保守路径和激进路径。
+```
+
+Why this test matters:
+
+- tests scalp and face usability logic
+- tests chronic relapsing dermatitis reasoning
+- tests whether the answer avoids borrowing fungal cure logic
+
+## Prompt 14: Innovative Oral-to-Topical Uncertain Path Case
+
+```text
+某口服已进入临床的小分子拟改为外用喷雾开发新适应症，目前还不能确定按创新药还是改良型新药更合适。请输出第一轮策略判断，并说明外用创新药和改良型新药路径在早期研究设计上的关键差异。
+```
+
+Why this test matters:
+
+- tests the new innovative-topical rule layer
+- tests path-uncertain reasoning
+- tests whether the answer clearly distinguishes proof-of-concept logic from bridge logic
+
 ## Manual Review Checklist
 
 When testing these prompts, check:

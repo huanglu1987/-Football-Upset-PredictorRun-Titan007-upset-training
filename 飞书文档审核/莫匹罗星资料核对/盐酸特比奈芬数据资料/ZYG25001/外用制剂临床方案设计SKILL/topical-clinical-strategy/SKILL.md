@@ -1,6 +1,6 @@
 ---
 name: topical-clinical-strategy
-description: Design China and FDA clinical development strategies for locally acting topical small-molecule products such as creams, gels, ointments, lotions, sprays, foams, and film-forming products. Use when Codex needs to assess innovative vs improved new-drug paths, compare conservative and aggressive development routes, judge MUsT/max-use PK or bridge needs, or structure Phase 1-3 strategy for indications including acne, rosacea, superficial fungal infection, and androgenetic alopecia.
+description: Design China and FDA clinical development strategies for locally acting topical small-molecule products such as creams, gels, ointments, lotions, sprays, foams, and film-forming products. Use when Codex needs to assess innovative vs improved new-drug paths, compare conservative and aggressive development routes, judge MUsT/max-use PK or bridge needs, or structure Phase 1-3 strategy for indications including acne, rosacea, superficial fungal infection, androgenetic alopecia, atopic dermatitis, plaque psoriasis, and seborrheic dermatitis.
 ---
 
 # Topical Clinical Strategy
@@ -15,13 +15,14 @@ Use this skill to turn product inputs into a structured clinical-development str
 2. Read `references/source-map.md` to choose the right evidence layer.
 3. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 4. Read `references/cde-fda-differences.md` when both regions matter.
-5. Read `references/output-template.md` before drafting the answer.
-6. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-7. Read the matching indication module under `references/indications/`.
-8. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-9. Read `references/known-boundaries.md` before finalizing the answer.
-10. Build the strategy using the decision sequence below.
-11. Output both conservative and aggressive paths.
+5. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
+6. Read `references/output-template.md` before drafting the answer.
+7. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+8. Read the matching indication module under `references/indications/`.
+9. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+10. Read `references/known-boundaries.md` before finalizing the answer.
+11. Build the strategy using the decision sequence below.
+12. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -110,6 +111,7 @@ Read these as needed:
 - `references/output-template.md`
 - `references/output-self-check.md`
 - `references/psg-strategy.md`
+- `references/innovative-topical-rules.md`
 - `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
@@ -125,3 +127,6 @@ Read these as needed:
 - `references/indications/rosacea.md`
 - `references/indications/superficial-fungal.md`
 - `references/indications/aga.md`
+- `references/indications/ad.md`
+- `references/indications/psoriasis.md`
+- `references/indications/seborrheic-dermatitis.md`

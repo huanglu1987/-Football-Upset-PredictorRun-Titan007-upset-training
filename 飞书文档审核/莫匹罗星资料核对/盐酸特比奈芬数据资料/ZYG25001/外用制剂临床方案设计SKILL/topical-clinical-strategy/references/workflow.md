@@ -11,17 +11,18 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 3. Read `references/source-map.md`.
 4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
 5. Read `references/cde-fda-differences.md` when both regions matter.
-6. Read `references/psg-strategy.md` when PSG may matter.
-7. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-8. Read `references/output-template.md`.
-9. Read the relevant indication module under `references/indications/`.
-10. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-11. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
-12. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-13. Read `references/output-self-check.md` before finalizing the answer.
-14. Decide whether official web search or registry search is required.
-15. Build the development logic.
-16. Output both conservative and aggressive paths.
+6. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
+7. Read `references/psg-strategy.md` when PSG may matter.
+8. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+9. Read `references/output-template.md`.
+10. Read the relevant indication module under `references/indications/`.
+11. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+12. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+13. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+14. Read `references/output-self-check.md` before finalizing the answer.
+15. Decide whether official web search or registry search is required.
+16. Build the development logic.
+17. Output both conservative and aggressive paths.
 
 ## Scope Check
 

@@ -13,6 +13,7 @@ If these local absolute paths do not exist on the current machine, fall back to 
 ### Skill QA and Support References
 
 - `references/psg-strategy.md`
+- `references/innovative-topical-rules.md`
 - `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
@@ -97,9 +98,11 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - PSG
 - topical BE logic
 - Q1/Q2/Q3 and IVRT/IVPT concepts
+- innovative-topical proof-of-concept and early clinical pharmacology logic
 - `ClinicalTrials.gov` when same-target or same-indication design precedent matters
 - `references/cde-fda-differences.md`
 - `references/psg-strategy.md`
+- `references/innovative-topical-rules.md`
 - `references/clinicaltrials-strategy.md`
 
 ### Tier 4: Skill QA Layer
@@ -151,7 +154,7 @@ Use them to study:
 - endpoint acceptability
 - wording around benefit-risk and waiver requests
 
-## Four Priority Indications
+## Current Indication Modules
 
 Always read the matching indication module for:
 
@@ -159,5 +162,10 @@ Always read the matching indication module for:
 - rosacea
 - superficial fungal infection
 - AGA
+- atopic dermatitis
+- plaque psoriasis
+- seborrheic dermatitis
+
+The first four modules currently have the deepest worked-example support. The newer three expanded modules should still be used, but may rely more heavily on current official browsing and general-rule interpretation.
 
 Then add official browsing if the user asks for FDA or current position.
