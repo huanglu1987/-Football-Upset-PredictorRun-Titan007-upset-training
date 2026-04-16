@@ -333,6 +333,24 @@
 - public-friendly `source-map.md`
 - public-friendly `topical-clinical-strategy-github-release-checklist.md`
 
+### Phase 15: 第九轮三场景实跑验证
+
+**Goal**: 用当前 public-friendly 版本实际跑通 1 个改良型、1 个创新型、1 个新增适应症项目，并把输出层缺口反写回技能
+
+**Tasks**:
+
+- [x] 用改良型新药场景验证当前双路径输出稳定性
+- [x] 用创新药场景验证 proof-of-concept 逻辑是否清晰
+- [x] 用新增适应症场景验证疾病特异性输出是否足够明确
+- [x] 增加新的 worked examples
+- [x] 把输出层发现的问题写回自检清单
+
+**Deliverables**:
+
+- `references/worked-examples/ad-innovative-dual-region.md`
+- `references/worked-examples/seborrheic-dermatitis-foam-dual-region.md`
+- `references/validation-results-round10.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**

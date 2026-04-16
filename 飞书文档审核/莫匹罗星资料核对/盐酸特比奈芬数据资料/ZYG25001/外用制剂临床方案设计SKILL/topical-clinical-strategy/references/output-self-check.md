@@ -44,6 +44,7 @@ Check:
 
 - Did the answer actually use the relevant indication logic?
 - Are the endpoints and timing windows specific to the disease context?
+- For chronic relapsing inflammatory dermatoses, did the answer clearly state whether the program is aiming at acute control, relapse control, or maintenance positioning?
 
 ### 6. Uncertainty handling
 
@@ -52,6 +53,13 @@ Check:
 - If inputs are sparse, did the answer switch into a first-pass strategy mode?
 - Did it clearly mark the highest-impact missing evidence?
 - Did it avoid false precision on study count, sample size, or waiver certainty?
+
+### 7. Innovative-program fit
+
+Check:
+
+- If the project is innovative, did the answer clearly separate proof-of-concept logic from bridge logic?
+- Did it explain whether the early package is mainly solving human signal, exposure control, or both?
 
 ## First-Pass Strategy Mode
 

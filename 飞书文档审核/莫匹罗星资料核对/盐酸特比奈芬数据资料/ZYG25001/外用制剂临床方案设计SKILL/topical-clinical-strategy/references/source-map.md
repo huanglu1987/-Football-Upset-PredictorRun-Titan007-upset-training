@@ -19,6 +19,7 @@ These repo files are the primary knowledge base for normal skill use and should 
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
 - `references/validation-results-round7.md`
+- `references/validation-results-round10.md`
 - `references/worked-examples/index.md`
 
 ### China Core Guidance

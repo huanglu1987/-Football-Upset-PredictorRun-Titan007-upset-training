@@ -177,4 +177,5 @@ Default to Chinese for the main answer unless the user asks otherwise.
 Use `references/validation-prompts.md` for manual testing and future team trial runs.
 Use `references/validation-results-round4.md` to understand what the first manual validation round already exposed.
 Use `references/validation-results-round7.md` to understand release-prep and business-acceptance findings.
+Use `references/validation-results-round10.md` to understand the three-scenario real-run validation findings.
 Use `references/worked-examples/index.md` to align style and depth for representative scenarios.
