@@ -249,6 +249,24 @@
 - `references/worked-examples/superficial-fungal-short-course.md`
 - `references/worked-examples/aga-topical-finasteride-risk.md`
 
+### Phase 11: 第六轮内测分发准备
+
+**Goal**: 在不正式发布 GitHub 的前提下，先把同事下载后的安装和试用路径整理清楚
+
+**Tasks**:
+
+- [x] 增加专用安装脚本
+- [x] 增加同事可读的安装/试用说明
+- [x] 补充两个更贴近业务语境的示范案例
+- [x] 把业务近邻案例接入 worked examples 和 validation prompts
+
+**Deliverables**:
+
+- `scripts/install_topical_clinical_strategy_skill.sh`
+- `docs/superpowers/guides/topical-clinical-strategy-skill-usage.md`
+- `references/worked-examples/terbinafine-topical-dual-region.md`
+- `references/worked-examples/minoxidil-optimization-dual-region.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**

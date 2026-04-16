@@ -106,6 +106,30 @@ Why this test matters:
 - tests whether the skill can still produce a usable first-pass answer
 - tests uncertainty marking and gap prioritization
 
+## Prompt 9: Terbinafine Dual-Region Case
+
+```text
+请为盐酸特比奈芬外用乳膏设计中国和 FDA 的临床开发策略。项目希望兼顾开发效率，但也要有一条更稳妥的保守路径。适应症是浅表真菌感染，现有基础主要来自口服和既往外用临床经验。
+```
+
+Why this test matters:
+
+- tests a business-near superficial fungal scenario
+- tests whether same-ingredient familiarity is used properly
+- tests whether the answer avoids collapsing into generic-only logic
+
+## Prompt 10: Minoxidil Optimization Case
+
+```text
+已有外用 minoxidil 使用基础，拟开发一个改良剂型以提高依从性并降低刺激，请给出中国和 FDA 双路径开发建议。
+```
+
+Why this test matters:
+
+- tests a business-near AGA optimization scenario
+- tests whether the aggressive path is allowed in a bounded way
+- tests whether long-horizon AGA logic remains intact
+
 ## Manual Review Checklist
 
 When testing these prompts, check:

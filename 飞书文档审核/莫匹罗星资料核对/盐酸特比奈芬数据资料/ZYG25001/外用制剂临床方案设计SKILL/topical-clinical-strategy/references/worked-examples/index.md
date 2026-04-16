@@ -17,6 +17,8 @@ These are not binding templates. They are demonstration-grade examples to help:
 - `worked-examples/rosacea-us-chronic.md`
 - `worked-examples/superficial-fungal-short-course.md`
 - `worked-examples/aga-topical-finasteride-risk.md`
+- `worked-examples/terbinafine-topical-dual-region.md`
+- `worked-examples/minoxidil-optimization-dual-region.md`
 
 ## How to Use
 
