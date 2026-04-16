@@ -54,17 +54,17 @@ Keep these distinctions explicit:
 
 ## Portability Boundary
 
-The current skill still references some author-local raw materials under paths such as:
+The current skill no longer requires author-local raw materials for normal use.
 
-- `/Users/huanglu/Desktop/临床/...`
+For public-distribution safety, the repo treats China official raw PDFs as an external official-source layer rather than mirroring them by default.
 
-These files were part of the authoring knowledge base, but they are not guaranteed to exist on another teammate's machine after a GitHub download.
+Normal teammate usage should rely on:
 
-If those local files are unavailable:
+- repo-bundled regulatory cards
+- repo-bundled case summaries
+- official FDA, CDE, NMPA, and ClinicalTrials.gov retrieval when current or citation-ready support is needed
 
-- use the repo-bundled regulatory cards first
-- use official FDA and CDE browsing when a current answer needs source support
-- do not fail just because the original local PDF path is missing
+The skill should not fail merely because the original author once used local raw files during drafting.
 
 ## Documentation Boundary
 
@@ -74,6 +74,8 @@ Before GitHub release, check whether any document still needs:
 
 - relative links instead of local absolute links
 - a repo-safe description of local-only source files
+
+For a public GitHub release, prefer official links and repo-bundled derivatives over mirrored third-party or China official raw files unless distribution rights are explicitly cleared.
 
 ## Recommended Answer Behavior Near A Boundary
 

@@ -10,7 +10,7 @@ Read:
 
 - FDA acne guidance on establishing effectiveness
 - relevant public review documents for acne topical products
-- the local `505(b)(2)` case CSV
+- `references/review-cases/topical-fda-cases.md`
 
 ## Core Endpoint Logic
 

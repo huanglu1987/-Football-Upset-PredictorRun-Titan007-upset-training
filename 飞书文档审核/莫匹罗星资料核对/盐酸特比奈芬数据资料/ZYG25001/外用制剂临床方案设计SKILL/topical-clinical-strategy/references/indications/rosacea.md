@@ -9,7 +9,7 @@ Use this module first for papulopustular rosacea. Do not mix persistent erythema
 Read:
 
 - relevant FDA public reviews for rosacea topical products
-- the local `505(b)(2)` case CSV
+- `references/review-cases/topical-fda-cases.md`
 - China local-acting topical guidance for general principles
 
 High-value FDA case anchors include products such as Zilxi and Epsolay.

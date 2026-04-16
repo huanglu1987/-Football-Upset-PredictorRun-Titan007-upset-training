@@ -7,33 +7,39 @@
 先确认技能目录仍能通过基础校验：
 
 ```bash
-python3 /Users/huanglu/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
-  "/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
+repo_root="$(git rev-parse --show-toplevel)"
+python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" \
+  "$repo_root/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
 ```
 
 建议同时确认安装脚本语法无误：
 
 ```bash
-bash -n /Users/huanglu/Projects/球探冷门/scripts/install_topical_clinical_strategy_skill.sh
+bash -n "$(git rev-parse --show-toplevel)/scripts/install_topical_clinical_strategy_skill.sh"
 ```
 
-## 2. 本地原始资料依赖检查
+## 2. Public Repo 源文件策略检查
 
-当前技能在资料地图中仍引用了作者本机上的原始 PDF / CSV 路径，例如：
+当前 public 版本的目标不是镜像作者本机文件，而是做到：
 
-- `/Users/huanglu/Desktop/临床/...`
+- 仓库内摘要卡可直接工作
+- 官方来源可从公开站点检索
+- 不再依赖作者本机路径
+- 不默认镜像 China 官方原始 PDF
 
 发布前要明确这几件事：
 
-- 这些原始文件是否允许入仓
-- 如果不允许入仓，是否已经有足够的 repo 内摘要卡可以替代
-- 团队成员在没有这些本地原件时，技能是否仍能靠 `references/regulatory/*.md` 和官方检索正常工作
+- 中国原始指导原则是否只保留“标题 + 官方来源索引 + repo 摘要卡”
+- FDA / ClinicalTrials.gov 是否优先使用官方链接而不是静态镜像
+- 任何新增原始文件是否明确确认了公开分发风险
 
-可先快速扫一遍本地路径引用：
+可先快速扫一遍是否还残留作者本机路径：
 
 ```bash
-rg -n "/Users/huanglu/Desktop/临床/" \
-  "/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
+repo_root="$(git rev-parse --show-toplevel)"
+rg -n "/Users/huanglu/" \
+  "$repo_root/docs/superpowers" \
+  "$repo_root/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
 ```
 
 ## 3. 文档可移植性检查
@@ -43,9 +49,10 @@ rg -n "/Users/huanglu/Desktop/临床/" \
 建议检查：
 
 ```bash
+repo_root="$(git rev-parse --show-toplevel)"
 rg -n "/Users/huanglu/" \
-  "/Users/huanglu/Projects/球探冷门/docs/superpowers" \
-  "/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
+  "$repo_root/docs/superpowers" \
+  "$repo_root/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy"
 ```
 
 重点判断：
@@ -64,6 +71,7 @@ rg -n "/Users/huanglu/" \
 - `references/output-template.md`
 - `references/known-boundaries.md`
 - `references/clinicaltrials-strategy.md`
+- `references/regulatory/china-official-source-index.md`
 - `references/worked-examples/index.md`
 
 ## 5. 业务验收样例复查
@@ -86,7 +94,7 @@ rg -n "/Users/huanglu/" \
 确认工作区里没有把无关内容一起带入发布：
 
 ```bash
-git -C /Users/huanglu/Projects/球探冷门 status --short
+git -C "$(git rev-parse --show-toplevel)" status --short
 ```
 
 当前已知有一个无关未跟踪目录：
@@ -99,7 +107,8 @@ git -C /Users/huanglu/Projects/球探冷门 status --short
 
 只有当以下问题都回答清楚时，才建议进入真正的 GitHub 发布动作：
 
-- 本地原始资料缺失时，技能是否仍可工作
+- 不依赖作者本机文件时，技能是否仍可工作
 - 面向 GitHub 的文档是否已经去掉不必要的本地绝对链接
+- China 官方原始 PDF 是否仍然没有被默认镜像入 public repo
 - 业务近邻样例是否再次人工验收通过
 - 当前仓库是否只包含准备发布的相关改动

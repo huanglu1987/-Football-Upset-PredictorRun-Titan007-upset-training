@@ -6,9 +6,9 @@ Use these cards to anchor China-side strategy before you infer anything from FDA
 
 ## 1. 局部给药局部起效的药物临床试验技术指导原则
 
-Local file:
+Official source:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/局部给药局部起效的药物临床试验指导原则.pdf`
+- CDE/NMPA official publication. See `references/regulatory/china-official-source-index.md` and retrieve by exact title.
 
 Use for:
 
@@ -24,9 +24,9 @@ Key takeaways:
 
 ## 2. 化学药品改良型新药临床试验指导原则
 
-Local file:
+Official source:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/化学药品改良型新药临床试验指导原则.pdf`
+- CDE/NMPA official publication. See `references/regulatory/china-official-source-index.md` and retrieve by exact title.
 
 Use for:
 
@@ -41,9 +41,9 @@ Key takeaways:
 
 ## 3. 化学药改良型新药临床药理学研究技术指导原则（试行）
 
-Local file:
+Official source:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/化学药改良型新药临床药理学研究技术指导原则（试行）.pdf`
+- CDE/NMPA official publication. See `references/regulatory/china-official-source-index.md` and retrieve by exact title.
 
 Use for:
 
@@ -59,9 +59,9 @@ Key takeaways:
 
 ## 4. 药物暴露-效应关系研究技术指导原则
 
-Local file:
+Official source:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物暴露-效应关系研究技术指导原则.pdf`
+- CDE/NMPA official publication. See `references/regulatory/china-official-source-index.md` and retrieve by exact title.
 
 Use for:
 
@@ -77,9 +77,9 @@ Key takeaways:
 
 ## 5. 药物临床试验申请临床评价技术指导原则
 
-Local file:
+Official source:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物临床试验申请临床评价技术指导原则.pdf`
+- CDE/NMPA official publication. See `references/regulatory/china-official-source-index.md` and retrieve by exact title.
 
 Use for:
 
@@ -99,3 +99,4 @@ If China is in scope:
 1. Start with this file.
 2. Build strategy around local-acting and improved-new-drug logic first.
 3. Use FDA precedent only after the China-side anchor is clear.
+4. If public-source verification is needed, use `references/regulatory/china-official-source-index.md` rather than any author-local file path.

@@ -8,11 +8,11 @@
 
 - 固定工作流
 - 固定输入与输出结构
-- 固定四个优先适应症模块入口
+- 固定优先适应症模块入口
 
 ## Linked Specification
 
-- 设计文档：`/Users/huanglu/Projects/球探冷门/docs/superpowers/specs/2026-04-16-topical-formulation-clinical-strategy-skill-design.md`
+- 设计文档：`docs/superpowers/specs/2026-04-16-topical-formulation-clinical-strategy-skill-design.md`
 
 ## Requirements Summary
 
@@ -50,31 +50,39 @@
 1. 搭建技能骨架与 UI 元数据
 2. 写入主工作流和输入/输出模板
 3. 建立资料层地图，明确本地资料与运行时检索边界
-4. 建立 4 个优先适应症模块
+4. 建立优先适应症模块
 5. 进行结构校验
 
 ### Proposed Repository Structure
 
 ```text
-/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/
+飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/
 └── topical-clinical-strategy/
     ├── SKILL.md
     ├── agents/
     │   └── openai.yaml
     └── references/
         ├── cde-fda-differences.md
+        ├── clinicaltrials-strategy.md
+        ├── failure-patterns.md
+        ├── innovative-topical-rules.md
+        ├── known-boundaries.md
         ├── workflow.md
         ├── source-map.md
         ├── input-template.md
         ├── output-template.md
         ├── regulatory/
         │   ├── china-core.md
+        │   ├── china-official-source-index.md
         │   └── fda-core.md
         ├── review-cases/
         │   └── topical-fda-cases.md
         └── indications/
             ├── acne.md
+            ├── ad.md
             ├── rosacea.md
+            ├── psoriasis.md
+            ├── seborrheic-dermatitis.md
             ├── superficial-fungal.md
             └── aga.md
 ```
@@ -306,6 +314,25 @@
 - `references/indications/seborrheic-dermatitis.md`
 - `references/innovative-topical-rules.md`
 
+### Phase 14: Public GitHub 友好化与本地依赖去除
+
+**Goal**: 让技能在 public GitHub 分发场景下不再依赖作者本机文件，而是改为 repo 内摘要层加官方来源索引
+
+**Tasks**:
+
+- [x] 增加 China 官方来源索引
+- [x] 去掉技能核心文档中的作者本机原始 PDF 路径依赖
+- [x] 将中国原始指导原则调整为 repo 摘要卡加官方索引模式
+- [x] 将本地 `505(b)(2)` CSV 依赖降为可选历史来源，不作为正常使用前提
+- [x] 更新 GitHub 发布前检查清单和使用说明
+
+**Deliverables**:
+
+- `references/regulatory/china-official-source-index.md`
+- public-friendly `china-core.md`
+- public-friendly `source-map.md`
+- public-friendly `topical-clinical-strategy-github-release-checklist.md`
+
 ## Risks and Mitigations
 
 - **风险：资料层过重，技能说明过长**
@@ -321,7 +348,7 @@
 
 - 补充更细的 PSG 清单和适应症映射
 - 按适应症增加更多法规卡和失败案例卡
-- 增加 AD、银屑病、脂溢性皮炎等扩展模块
 - 视团队需要把 China-side public registry 也做成独立资料层
-- 决定本地原始 PDF / CSV 是否需要生成 repo-safe 摘要或索引文件
+- 继续检查并清理其他非核心文档中的绝对路径
+- 按需补充更细的 China 官方检索入口或内部私有镜像方案
 - 当你确定 GitHub 仓库后，执行最后的发布动作

@@ -14,15 +14,16 @@ Use this skill to turn product inputs into a structured clinical-development str
 1. Normalize the request with `references/input-template.md` if the user input is incomplete.
 2. Read `references/source-map.md` to choose the right evidence layer.
 3. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
-4. Read `references/cde-fda-differences.md` when both regions matter.
-5. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
-6. Read `references/output-template.md` before drafting the answer.
-7. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-8. Read the matching indication module under `references/indications/`.
-9. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-10. Read `references/known-boundaries.md` before finalizing the answer.
-11. Build the strategy using the decision sequence below.
-12. Output both conservative and aggressive paths.
+4. Read `references/regulatory/china-official-source-index.md` when China official-source provenance or current verification matters.
+5. Read `references/cde-fda-differences.md` when both regions matter.
+6. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
+7. Read `references/output-template.md` before drafting the answer.
+8. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+9. Read the matching indication module under `references/indications/`.
+10. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+11. Read `references/known-boundaries.md` before finalizing the answer.
+12. Build the strategy using the decision sequence below.
+13. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -120,6 +121,7 @@ Read these as needed:
 - `references/validation-results-round7.md`
 - `references/worked-examples/index.md`
 - `references/regulatory/china-core.md`
+- `references/regulatory/china-official-source-index.md`
 - `references/regulatory/fda-core.md`
 - `references/cde-fda-differences.md`
 - `references/review-cases/topical-fda-cases.md`

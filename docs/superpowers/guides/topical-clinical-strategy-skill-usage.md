@@ -6,7 +6,7 @@
 
 仓库中的技能源码位于：
 
-`/Users/huanglu/Projects/球探冷门/飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy`
+`飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy`
 
 如果只是阅读技能结构，可以直接查看：
 
@@ -87,6 +87,7 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 发布准备：
 
 - [GitHub 发布前检查清单](./topical-clinical-strategy-github-release-checklist.md)
+- [China 官方来源索引](../../../飞书文档审核/莫匹罗星资料核对/盐酸特比奈芬数据资料/ZYG25001/外用制剂临床方案设计SKILL/topical-clinical-strategy/references/regulatory/china-official-source-index.md)
 
 ## 8. 当前状态
 
@@ -110,4 +111,10 @@ bash scripts/install_topical_clinical_strategy_skill.sh
 
 在正式对外发布到 GitHub 前，仍建议继续用真实品种做 1 到 2 轮业务内测。
 
-同时建议先阅读 `known-boundaries.md`，因为当前版本虽然已经可内测，但仍有本地原始资料依赖和 GitHub 文档可移植性两类发布前检查项。
+同时建议先阅读 `known-boundaries.md`，因为当前版本虽然已经去掉了正常使用所需的本地原始资料依赖，但 GitHub 文档可移植性和公开分发策略仍值得在发布前再检查一轮。
+
+对于 public GitHub 场景，当前推荐做法是：
+
+- 直接使用仓库内摘要卡和规则卡
+- 需要中国原始指导原则时，再按 `china-official-source-index.md` 去官方站点检索
+- 不默认依赖作者本机上的 PDF 或 CSV 路径

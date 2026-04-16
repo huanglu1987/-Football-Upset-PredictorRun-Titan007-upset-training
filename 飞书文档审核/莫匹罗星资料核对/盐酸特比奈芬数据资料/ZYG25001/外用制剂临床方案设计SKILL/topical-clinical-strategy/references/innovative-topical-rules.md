@@ -20,9 +20,8 @@ Read this file when one or more of the following is true:
 
 China-side anchors:
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/创新药临床药理学研究技术指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/局部给药局部起效的药物临床试验指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物暴露-效应关系研究技术指导原则.pdf`
+- `references/regulatory/china-official-source-index.md`
+- `references/regulatory/china-core.md`
 
 FDA-side anchors:
 
@@ -31,6 +30,8 @@ FDA-side anchors:
 - Adaptive design guidance: `https://www.fda.gov/regulatory-information/search-fda-guidance-documents/adaptive-design-clinical-trials-drugs-and-biologics-guidance-industry`
 
 Also read the indication-specific module and recent FDA public reviews if a mechanistically similar precedent exists.
+
+In public-distribution mode, rely on the repo-bundled China cards plus official retrieval from `china-official-source-index.md` rather than any mirrored local raw PDFs.
 
 ## Core Distinction From Improved-New-Drug Logic
 

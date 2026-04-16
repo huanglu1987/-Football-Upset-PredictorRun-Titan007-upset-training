@@ -10,19 +10,20 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 2. Collect the minimum input set.
 3. Read `references/source-map.md`.
 4. Read `references/regulatory/china-core.md` and `references/regulatory/fda-core.md` as needed.
-5. Read `references/cde-fda-differences.md` when both regions matter.
-6. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
-7. Read `references/psg-strategy.md` when PSG may matter.
-8. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-9. Read `references/output-template.md`.
-10. Read the relevant indication module under `references/indications/`.
-11. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-12. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
-13. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-14. Read `references/output-self-check.md` before finalizing the answer.
-15. Decide whether official web search or registry search is required.
-16. Build the development logic.
-17. Output both conservative and aggressive paths.
+5. Read `references/regulatory/china-official-source-index.md` when China official-source provenance or current verification matters.
+6. Read `references/cde-fda-differences.md` when both regions matter.
+7. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
+8. Read `references/psg-strategy.md` when PSG may matter.
+9. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+10. Read `references/output-template.md`.
+11. Read the relevant indication module under `references/indications/`.
+12. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+13. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+14. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+15. Read `references/output-self-check.md` before finalizing the answer.
+16. Decide whether official web search or registry search is required.
+17. Build the development logic.
+18. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -52,7 +53,7 @@ At minimum, resolve:
 
 Do not stop solely because the target concentration lacks prior topical precedent. Treat that as a non-blocking risk signal and adjust the conservative path accordingly.
 
-If author-local raw sources are unavailable on the current machine, continue with the repo-bundled reference cards plus official browsing when needed.
+If raw China source files are not locally mirrored, continue with the repo-bundled reference cards plus official retrieval from `references/regulatory/china-official-source-index.md` when needed.
 
 ## Evidence Ladder
 

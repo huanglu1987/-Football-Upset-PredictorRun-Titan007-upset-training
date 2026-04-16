@@ -4,11 +4,9 @@
 
 Use this file to decide which sources to consult first and which sources require live official browsing.
 
-## Local Core Sources
+## Repo-Bundled Core Sources
 
-These files were explicitly provided for this project and should be treated as the primary authoring-time local knowledge base.
-
-If these local absolute paths do not exist on the current machine, fall back to the repo-bundled reference cards and official online sources instead of blocking the answer.
+These repo files are the primary knowledge base for normal skill use and should be available to any teammate who downloads the repository.
 
 ### Skill QA and Support References
 
@@ -25,32 +23,19 @@ If these local absolute paths do not exist on the current machine, fall back to 
 
 ### China Core Guidance
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/局部给药局部起效的药物临床试验指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/化学药品改良型新药临床试验指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/化学药改良型新药临床药理学研究技术指导原则（试行）.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物临床试验申请临床评价技术指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物暴露-效应关系研究技术指导原则.pdf`
-
-See also:
-
 - `references/regulatory/china-core.md`
+- `references/regulatory/china-official-source-index.md`
 
 ### Useful China Supporting Sources
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/创新药临床药理学研究技术指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/皮肤外用化学仿制药研究技术指导原则（试行）.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/药物上市申请临床评价技术指导原则.pdf`
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/儿童用化学药品改良型新药临床试验技术指导原则（试行）.pdf`
+- `references/innovative-topical-rules.md`
+- `references/regulatory/china-official-source-index.md`
 
 ### FDA Case Summary Source
 
-- `/Users/huanglu/Desktop/临床/皮肤用药指导原则/505b(2)临床汇总 .csv`
-
-Use this CSV as a practical precedent layer, not as a substitute for official guidance.
-
-See also:
-
 - `references/review-cases/topical-fda-cases.md`
+
+Use this repo summary as the practical precedent layer. A separate author-local structured CSV once informed parts of the summary, but it is not required for normal skill use or public distribution.
 
 ## Official Online Sources
 
@@ -78,6 +63,7 @@ Use for the default rule tree.
 - CDE/NMPA guidance
 - FDA general guidance
 - `references/regulatory/china-core.md`
+- `references/regulatory/china-official-source-index.md`
 - `references/regulatory/fda-core.md`
 
 ### Tier 2: Review Practice
