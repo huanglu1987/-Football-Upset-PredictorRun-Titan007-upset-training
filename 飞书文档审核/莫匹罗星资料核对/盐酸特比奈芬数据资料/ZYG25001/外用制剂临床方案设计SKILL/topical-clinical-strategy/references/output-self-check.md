@@ -70,6 +70,14 @@ Check:
 - If MAD or repeat-dose work was recommended, did the answer explain what repeat-dose question is being answered?
 - Did the answer state whether patient PK or MUsT should happen before, inside, or after the first proof-of-concept package?
 
+### 9. Output mode fit
+
+Check:
+
+- Did the answer implicitly or explicitly choose `策略版` versus `方案纲要版（synopsis）` correctly?
+- If the answer drifted into synopsis depth, did it stay at study architecture rather than pretending to be a full protocol?
+- If the answer stayed in strategy mode, did it avoid under-answering a user who clearly wanted study-design detail?
+
 ## First-Pass Strategy Mode
 
 Use first-pass mode when:
@@ -94,3 +102,4 @@ The answer is not ready if any of the following is true:
 - no evidence type is attached to the main recommendations
 - the answer reads like a protocol synopsis instead of a strategy memo
 - the answer names SAD or MAD but never explains how the early package is architected
+- the answer should have been synopsis mode but never gave study-level architecture

@@ -15,17 +15,20 @@ Use this skill to turn product inputs into a structured China/FDA clinical devel
 7. Read `references/regulatory/innovative-core.md` when innovative-drug methodology or early clinical pharmacology questions matter.
 8. Read `references/innovative-topical-rules.md` when innovative-drug logic or proof-of-concept logic matters.
 9. Read `references/early-phase-design-rules.md` when the user asks for detailed early study design.
-10. Read `references/psg-strategy.md` when PSG may matter.
-11. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-12. Read `references/output-template.md`.
-13. Read the relevant indication module under `references/indications/`.
-14. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-15. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
-16. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
-17. Read `references/output-self-check.md` before finalizing the answer.
-18. Decide whether official web search or registry search is required.
-19. Build the development logic.
-20. Output both conservative and aggressive paths.
+10. Read `references/regulatory/china-innovative-methods.md` when China-side innovative-drug methods detail matters.
+11. Read `references/psg-strategy.md` when PSG may matter.
+12. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+13. Read `references/output-template.md`.
+14. Read `references/synopsis-template.md` when a more detailed study-architecture answer is needed.
+15. Read the relevant indication module under `references/indications/`.
+16. Read `references/case-library/index.md` when a family-based routing shortcut would help a teammate or reviewer.
+17. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+18. Read `references/failure-patterns.md` and `references/known-boundaries.md` as a pre-answer sanity check.
+19. Read `references/worked-examples/index.md` when a similar demonstration case would help shape the answer.
+20. Read `references/output-self-check.md` before finalizing the answer.
+21. Decide whether official web search or registry search is required.
+22. Build the development logic.
+23. Output both conservative and aggressive paths.
 
 ## Scope Check
 
@@ -37,6 +40,7 @@ Stay within this skill when all of the following are true:
 - The target market is China, the United States, or both.
 
 If the user is really asking for a full protocol synopsis or protocol authoring task, use this skill to set strategy first, then draft the protocol separately.
+If the user asks for an internal study synopsis rather than a full formal protocol, stay within this skill and use `references/synopsis-template.md`.
 
 ## Required Inputs
 
@@ -172,7 +176,9 @@ If the target strength lacks established topical precedent:
 
 ## Output Discipline
 
-Use the structure in `references/output-template.md`.
+Default to the structure in `references/output-template.md`.
+
+If the user explicitly asks for a more detailed study design, switch to `references/synopsis-template.md`.
 
 For every key recommendation, include:
 
@@ -188,6 +194,14 @@ If the user asks early-design detail, explicitly answer:
 - whether SAD and MAD are needed
 - what each early study is trying to solve
 - what progression criterion moves the program forward
+
+If the user asks for synopsis depth, also answer:
+
+- study sequence
+- study-level cohort or arm architecture
+- key entry direction rather than full entry text
+- risk-control points
+- go/no-go gates
 
 ## Validation Use
 

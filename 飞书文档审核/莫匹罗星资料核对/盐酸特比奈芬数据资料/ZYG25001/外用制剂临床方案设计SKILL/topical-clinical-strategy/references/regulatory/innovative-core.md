@@ -7,6 +7,7 @@ Use this file when the program is a true innovative topical drug program, or whe
 This file is meant to complement, not replace:
 
 - `references/regulatory/china-core.md`
+- `references/regulatory/china-innovative-methods.md`
 - `references/regulatory/fda-core.md`
 - `references/innovative-topical-rules.md`
 - `references/early-phase-design-rules.md`
@@ -20,6 +21,10 @@ Read this file when one or more of the following is true:
 - the key question is whether SAD, MAD, patient PK, or MUsT should be done
 - the product lacks a strong same-ingredient topical precedent
 - the answer needs a broader China plus FDA innovative-drug methodology layer
+
+For exact China-side method-file routing, also read:
+
+- `references/regulatory/china-innovative-methods.md`
 
 ## China Innovative-Drug Anchors
 

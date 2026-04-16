@@ -2,9 +2,42 @@
 
 ## Usage
 
-Use this structure for the final strategy output unless the user explicitly asks for a different format.
+This file is the default output router.
 
-## Required Sections
+The skill now supports two output modes:
+
+- `策略版`
+- `方案纲要版（synopsis）`
+
+Default to `策略版` unless the user explicitly asks for more design detail.
+
+If the user asks for a study-architecture answer, use:
+
+- `references/synopsis-template.md`
+
+This file continues to define the default `策略版` structure.
+
+## Mode Selection
+
+### Use `策略版` when
+
+- the user is still at portfolio or early candidate triage stage
+- the inputs are sparse
+- the main task is path judgment, not study drafting
+
+### Use `方案纲要版（synopsis）` when
+
+- the user asks for more detailed study design
+- the user asks how a Phase 1 or exploratory package should actually be run
+- the team needs an internal near-synopsis architecture
+
+In synopsis mode, still keep:
+
+- path judgment
+- evidence labeling
+- conservative versus aggressive framing
+
+## Strategy-Mode Required Sections
 
 ### 1. 项目结论摘要
 
@@ -142,3 +175,4 @@ For each key recommendation, include:
 - Do not silently imply certainty that the evidence does not support.
 - If evidence is mixed, say so directly.
 - If the conservative and aggressive paths differ because of one key assumption, name that assumption explicitly.
+- If synopsis mode is selected, switch to `references/synopsis-template.md` instead of stretching this file beyond its intended depth.

@@ -18,6 +18,10 @@ The more recent innovative and expanded-indication examples now also show the ex
 - patient PK or MUsT placement
 - progression gates into later studies
 
+For quicker teammate navigation by disease family or mechanism family, use:
+
+- `references/case-library/index.md`
+
 ## Example Set
 
 - `worked-examples/acne-combination-dual-region.md`

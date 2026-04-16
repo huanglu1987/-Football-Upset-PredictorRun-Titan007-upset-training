@@ -16,24 +16,28 @@ These repo files are the primary knowledge base for normal skill use and should 
 - `references/clinicaltrials-strategy.md`
 - `references/failure-patterns.md`
 - `references/known-boundaries.md`
+- `references/synopsis-template.md`
 - `references/validation-prompts.md`
 - `references/output-self-check.md`
 - `references/validation-results-round4.md`
 - `references/validation-results-round7.md`
 - `references/validation-results-round10.md`
 - `references/worked-examples/index.md`
+- `references/case-library/index.md`
 
 ### China Core Guidance
 
 - `references/regulatory/china-core.md`
 - `references/regulatory/china-official-source-index.md`
 - `references/regulatory/innovative-core.md`
+- `references/regulatory/china-innovative-methods.md`
 
 ### Useful China Supporting Sources
 
 - `references/innovative-topical-rules.md`
 - `references/regulatory/china-official-source-index.md`
 - `references/regulatory/innovative-core.md`
+- `references/regulatory/china-innovative-methods.md`
 
 ### FDA Case Summary Source
 
@@ -95,6 +99,7 @@ Use to refine topical formulation logic, especially when discussing complex exte
 - `references/innovative-topical-rules.md`
 - `references/early-phase-design-rules.md`
 - `references/clinicaltrials-strategy.md`
+- `references/synopsis-template.md`
 
 ### Tier 4: Skill QA Layer
 
@@ -107,6 +112,14 @@ Use to keep answers stable and testable.
 - `references/validation-results-round4.md`
 - `references/validation-results-round7.md`
 - `references/worked-examples/index.md`
+
+## Team-Download Note
+
+For teammate-friendly usage after downloading the repo:
+
+- start from `references/case-library/index.md` if the user wants the closest family pattern quickly
+- use `references/output-template.md` for strategy mode
+- use `references/synopsis-template.md` for internal study-architecture drafting
 
 ## Live-Browse Triggers
 

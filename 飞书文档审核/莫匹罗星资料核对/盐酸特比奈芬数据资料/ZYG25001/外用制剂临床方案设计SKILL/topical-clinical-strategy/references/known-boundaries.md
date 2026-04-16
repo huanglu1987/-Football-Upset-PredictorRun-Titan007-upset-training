@@ -33,6 +33,8 @@ The skill can still help, but answers should usually stay in first-pass strategy
 
 The skill can also help with innovative-topical projects, but innovative-drug case precedent is still shallower than improved-new-drug precedent.
 
+The current version can now produce a `方案纲要版（synopsis）` answer, but that output should still be treated as an internal study-architecture draft rather than a submission-ready protocol text.
+
 ## Current Hard Boundaries
 
 Do not present this skill as a finished solution for:
@@ -85,3 +87,4 @@ When the request sits near a boundary, the answer should:
 - avoid false precision
 - say what extra evidence would most improve path confidence
 - prefer strategy framing over protocol-like detail
+- if synopsis mode is used, stay at study architecture and decision logic rather than full protocol drafting

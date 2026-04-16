@@ -124,6 +124,29 @@ Typical use:
 
 - pediatric expansion questions in improved-drug settings
 
+### 10. 《化学药创新药临床单次和多次给药剂量递增药代动力学研究技术指导原则》
+
+Repo derivative:
+
+- `references/regulatory/china-innovative-methods.md`
+
+Typical use:
+
+- China-side SAD and MAD design
+- early PK population choice
+- escalation and sampling logic
+
+### 11. 创新药人体生物利用度和生物等效性研究技术指导原则
+
+Repo derivative:
+
+- `references/regulatory/china-innovative-methods.md`
+
+Typical use:
+
+- innovative-program BA or BE questions during formulation evolution
+- early versus later clinical formulation comparability
+
 ## Public-Repo Note
 
 This repo intentionally avoids mirroring China official raw PDFs by default for public-distribution safety.

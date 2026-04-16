@@ -7,7 +7,7 @@ description: Design China and FDA clinical development strategies for locally ac
 
 ## Overview
 
-Use this skill to turn product inputs into a structured clinical-development strategy for skin-applied, locally acting small-molecule drugs in China, the United States, or both. Default to strategy-level output with clear rationale, not full protocol drafting.
+Use this skill to turn product inputs into a structured clinical-development strategy for skin-applied, locally acting small-molecule drugs in China, the United States, or both. Default to `策略版` output with clear rationale, and switch to `方案纲要版（synopsis）` when the user needs study-architecture detail.
 
 ## Workflow
 
@@ -19,13 +19,16 @@ Use this skill to turn product inputs into a structured clinical-development str
 6. Read `references/regulatory/innovative-core.md` when innovative-drug methodology or early clinical pharmacology questions matter.
 7. Read `references/innovative-topical-rules.md` when innovative-drug logic or true proof-of-concept logic matters.
 8. Read `references/early-phase-design-rules.md` when the user asks how to design early studies, including healthy volunteers versus patients and SAD or MAD logic.
-9. Read `references/output-template.md` before drafting the answer.
-10. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
-11. Read the matching indication module under `references/indications/`.
-12. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
-13. Read `references/known-boundaries.md` before finalizing the answer.
-14. Build the strategy using the decision sequence below.
-15. Output both conservative and aggressive paths.
+9. Read `references/regulatory/china-innovative-methods.md` when China-side innovative-drug methods detail matters.
+10. Read `references/output-template.md` before drafting the answer.
+11. Read `references/synopsis-template.md` when the user asks for study-architecture detail.
+12. Read `references/clinicaltrials-strategy.md` when same-target or same-indication trial-design precedent matters.
+13. Read the matching indication module under `references/indications/`.
+14. Read `references/case-library/index.md` when a teammate-friendly family pattern or closest-case routing would help.
+15. Read `references/review-cases/topical-fda-cases.md` when FDA precedent matters.
+16. Read `references/known-boundaries.md` before finalizing the answer.
+17. Build the strategy using the decision sequence below.
+18. Output both conservative and aggressive paths.
 
 ## Decision Sequence
 
@@ -89,7 +92,8 @@ Search `ClinicalTrials.gov` when:
 ## Output Rules
 
 - Always provide both conservative and aggressive paths unless the user explicitly asks for only one.
-- Keep the main answer at the clinical-development-strategy level.
+- Default to `策略版`.
+- Switch to `方案纲要版（synopsis）` when the user asks for more detailed study design, or when candidate-level study sequencing is the main task.
 - For each key recommendation, state:
   - evidence type
   - evidence point
@@ -113,6 +117,7 @@ Read these as needed:
 - `references/source-map.md`
 - `references/input-template.md`
 - `references/output-template.md`
+- `references/synopsis-template.md`
 - `references/early-phase-design-rules.md`
 - `references/output-self-check.md`
 - `references/psg-strategy.md`
@@ -125,7 +130,9 @@ Read these as needed:
 - `references/validation-results-round7.md`
 - `references/validation-results-round10.md`
 - `references/worked-examples/index.md`
+- `references/case-library/index.md`
 - `references/regulatory/china-core.md`
+- `references/regulatory/china-innovative-methods.md`
 - `references/regulatory/china-official-source-index.md`
 - `references/regulatory/fda-core.md`
 - `references/regulatory/innovative-core.md`
