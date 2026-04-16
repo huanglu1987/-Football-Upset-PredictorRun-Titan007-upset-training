@@ -9,10 +9,9 @@ Use this file to keep the skill honest. It defines where the current version is 
 The current version is strongest when:
 
 - the product is a skin-applied, locally acting small-molecule drug
-- the dosage form is a cream, gel, ointment, lotion, liniment, spray, foam, or film-forming product
+- the dosage form is a cream, gel, ointment, lotion, liniment, spray, foam, or film-forming product such as 成膜溶液 / 涂膜剂
 - the user wants strategy-level China, FDA, or dual-region development advice
-- the indication is one of the current seven modules:
- - the indication is one of the current ten modules:
+- the indication is one of the current ten modules:
   - acne
   - rosacea
   - superficial fungal infection
@@ -30,7 +29,7 @@ The first four modules still have the deepest precedent and worked-example suppo
 
 The skill can still help, but answers should usually stay in first-pass strategy mode, when:
 
-- the indication is outside the current seven modules
+- the indication is outside the current ten modules
 - the formulation is within scope but highly novel in delivery behavior
 - the active ingredient has only oral precedent and little topical history
 - the target strength is largely hypothesis-driven

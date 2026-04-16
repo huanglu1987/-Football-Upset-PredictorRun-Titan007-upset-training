@@ -1,4 +1,4 @@
 interface:
   display_name: "Topical Clinical Strategy"
-  short_description: "Plan China/FDA topical drug development strategies"
-  default_prompt: "请基于品种信息输出中国/FDA临床开发策略，并比较保守与激进路径。"
+  short_description: "设计中国/FDA外用制剂临床策略，支持synopsis与成膜溶液"
+  default_prompt: "请基于品种信息输出中国/FDA外用制剂临床开发策略；默认比较保守与激进路径，如需更细请切换到方案纲要版（synopsis）。"
