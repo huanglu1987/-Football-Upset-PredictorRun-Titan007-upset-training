@@ -32,6 +32,9 @@ For quicker teammate navigation by disease family or mechanism family, use:
 - `worked-examples/minoxidil-optimization-dual-region.md`
 - `worked-examples/ad-innovative-dual-region.md`
 - `worked-examples/seborrheic-dermatitis-foam-dual-region.md`
+- `worked-examples/vitiligo-facial-nonsegmental-dual-region.md`
+- `worked-examples/alopecia-areata-patchy-cn.md`
+- `worked-examples/radiation-dermatitis-prevention-cn.md`
 
 ## How to Use
 
