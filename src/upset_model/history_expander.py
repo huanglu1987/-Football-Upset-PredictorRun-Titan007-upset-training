@@ -119,6 +119,7 @@ def recover_titan007_history_from_raw(
                 source_url=str(schedule_path),
                 allowed_competition_codes=allowed_competition_codes,
             )
+            matches = _dedupe_matches_by_schedule_id(matches)
             structured_matches.extend(serialize_schedule_matches(matches))
             selected_competitions.update(match.competition_code for match in matches)
         except Exception as exc:
@@ -253,3 +254,14 @@ def recover_titan007_history_from_raw(
 
 def _history_season_key(match_date: str) -> str:
     return season_key(current_european_season_start_year(today=date.fromisoformat(match_date)))
+
+
+def _dedupe_matches_by_schedule_id(matches: list) -> list:
+    deduped_matches = []
+    seen_schedule_ids: set[int] = set()
+    for match in sorted(matches, key=lambda item: (item.match_date, item.kickoff_time, item.schedule_id)):
+        if match.schedule_id in seen_schedule_ids:
+            continue
+        seen_schedule_ids.add(match.schedule_id)
+        deduped_matches.append(match)
+    return deduped_matches

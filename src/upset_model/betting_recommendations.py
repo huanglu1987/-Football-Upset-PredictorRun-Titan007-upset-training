@@ -198,6 +198,7 @@ def build_final_betting_rows(predictions: Iterable[PredictionRow]) -> list[dict[
         rows.append(
             {
                 "比赛时间": f"{prediction.match_date} {prediction.kickoff_time}",
+                "联赛": prediction.competition_name,
                 "对阵": f"{prediction.home_team} vs {prediction.away_team}",
                 "等级": prediction.bet_confidence or "",
                 "建议方向": prediction.bet_direction or "",

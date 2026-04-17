@@ -169,6 +169,17 @@ def _filter_predictions_by_window(predictions: list, window: PredictionWindow) -
     ]
 
 
+def _dedupe_matches_by_schedule_id(matches: list) -> list:
+    deduped_matches = []
+    seen_schedule_ids: set[int] = set()
+    for match in sorted(matches, key=lambda item: (item.match_date, item.kickoff_time, item.schedule_id)):
+        if match.schedule_id in seen_schedule_ids:
+            continue
+        seen_schedule_ids.add(match.schedule_id)
+        deduped_matches.append(match)
+    return deduped_matches
+
+
 def save_csv(rows: list[dict[str, object]], output_path: Path) -> Path:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:
@@ -336,6 +347,7 @@ def main(argv: list[str] | None = None) -> int:
                 source_url=schedule_url,
                 allowed_competition_codes=args.competitions,
             )
+            matches = _dedupe_matches_by_schedule_id(matches)
             structured_matches.extend(serialize_schedule_matches(matches))
             selected_competitions.update(match.competition_code for match in matches)
         except Exception as exc:

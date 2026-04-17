@@ -254,16 +254,19 @@ class Titan007PublicTests(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         self.assertEqual(matches[0].competition_code, "E0")
 
-    def test_parse_schedule_matches_skips_rows_from_adjacent_dates(self) -> None:
+    def test_parse_schedule_matches_keeps_next_day_midnight_rows(self) -> None:
         matches = parse_schedule_matches(
             CROSS_DAY_SCHEDULE_HTML,
             match_date="2026-04-15",
             source_url="https://bf.titan007.com/football/Next_20260415.htm",
         )
 
-        self.assertEqual(len(matches), 1)
+        self.assertEqual(len(matches), 2)
         self.assertEqual(matches[0].match_date, "2026-04-15")
         self.assertEqual(matches[0].home_team, "球队A")
+        self.assertEqual(matches[1].match_date, "2026-04-16")
+        self.assertEqual(matches[1].kickoff_time, "00:00")
+        self.assertEqual(matches[1].home_team, "塔波斯科")
 
     def test_parse_finished_schedule_extracts_score_and_result(self) -> None:
         match = parse_schedule_matches(

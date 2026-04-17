@@ -253,6 +253,7 @@ def _write_summary_sheet(
     row_index += 1
     betting_headers = [
         "比赛时间",
+        "联赛",
         "对阵",
         "等级",
         "建议方向",

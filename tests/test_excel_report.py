@@ -81,6 +81,7 @@ class ExcelReportTests(unittest.TestCase):
         recommendation_rows = [
             {
                 "比赛时间": "2026-04-18 15:00",
+                "联赛": "Premier League",
                 "对阵": "A vs B",
                 "等级": "强",
                 "建议方向": "冷平",
@@ -121,12 +122,14 @@ class ExcelReportTests(unittest.TestCase):
             ["summary", "betting_recommendations", "combined_rankings", "draw_rankings", "all_predictions"],
         )
         self.assertEqual(workbook["summary"]["A1"].value, "Titan007 Prediction Summary")
-        self.assertEqual(workbook["betting_recommendations"]["C2"].value, "强")
-        self.assertEqual(workbook["betting_recommendations"]["D2"].value, "冷平")
+        self.assertEqual(workbook["betting_recommendations"]["B2"].value, "Premier League")
+        self.assertEqual(workbook["betting_recommendations"]["D2"].value, "强")
+        self.assertEqual(workbook["betting_recommendations"]["E2"].value, "冷平")
         self.assertEqual(workbook["combined_rankings"]["G2"].value, "draw_upset")
         self.assertAlmostEqual(workbook["combined_rankings"]["H2"].value, 0.56)
         summary_values = [cell for row in workbook["summary"].iter_rows(values_only=True) for cell in row if cell is not None]
         self.assertIn("比赛时间", summary_values)
+        self.assertIn("联赛", summary_values)
         self.assertIn("等级", summary_values)
         self.assertIn("建议方向", summary_values)
 

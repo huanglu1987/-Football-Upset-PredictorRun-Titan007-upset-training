@@ -224,7 +224,7 @@ def parse_schedule_matches(
     allowed_competition_codes: Iterable[str] | None = None,
 ) -> list[Titan007ScheduledMatch]:
     target_page_date = _normalize_date(match_date)
-    target_date = target_page_date.isoformat()
+    latest_allowed_date = target_page_date + timedelta(days=1)
     allowed_filters = normalize_titan007_competition_filters(list(allowed_competition_codes) if allowed_competition_codes else None)
     table_match = re.search(r"id=['\"]table_live['\"]>(?P<body>.*?)</table>", html_text, flags=re.IGNORECASE | re.DOTALL)
     if table_match is None:
@@ -250,7 +250,8 @@ def parse_schedule_matches(
             continue
 
         row_match_date, kickoff_time = _parse_schedule_row_datetime(_clean_cell_text(cells[1]), page_date=target_page_date)
-        if row_match_date != target_date:
+        row_date = date.fromisoformat(row_match_date)
+        if row_date < target_page_date or row_date > latest_allowed_date:
             continue
         home_team = _clean_team_name(cells[3])
         away_team = _clean_team_name(cells[5])
@@ -262,7 +263,7 @@ def parse_schedule_matches(
                 schedule_id=int(row_match.group("schedule_id")),
                 competition_name=competition_name,
                 competition_code=competition_code,
-                match_date=target_date,
+                match_date=row_match_date,
                 kickoff_time=kickoff_time,
                 home_team=home_team,
                 away_team=away_team,

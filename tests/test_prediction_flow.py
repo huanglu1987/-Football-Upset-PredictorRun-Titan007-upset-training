@@ -392,6 +392,7 @@ class PredictionFlowTests(unittest.TestCase):
             [
                 {
                     "比赛时间": "2026-04-18 15:00",
+                    "联赛": "Premier League",
                     "对阵": "A vs B",
                     "等级": "强",
                     "建议方向": "冷平",
@@ -399,6 +400,7 @@ class PredictionFlowTests(unittest.TestCase):
                 },
                 {
                     "比赛时间": "2026-04-18 16:00",
+                    "联赛": "Premier League",
                     "对阵": "E vs F",
                     "等级": "中",
                     "建议方向": "冷平",
@@ -406,6 +408,7 @@ class PredictionFlowTests(unittest.TestCase):
                 },
                 {
                     "比赛时间": "2026-04-18 17:00",
+                    "联赛": "Premier League",
                     "对阵": "G vs H",
                     "等级": "弱",
                     "建议方向": "冷平",
