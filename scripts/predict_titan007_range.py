@@ -4,8 +4,8 @@ import argparse
 import csv
 import json
 import sys
-from dataclasses import asdict, fields
-from datetime import date, datetime, timezone
+from dataclasses import asdict, dataclass, fields
+from datetime import date, datetime, time, timezone
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -46,12 +46,22 @@ from upset_model.modeling import load_model_artifact, save_prediction_report, sc
 from upset_model.standardize import snapshot_row_to_training_row
 
 
+@dataclass(frozen=True)
+class PredictionWindow:
+    fetch_start_date: str
+    fetch_end_date: str
+    start_datetime: datetime
+    end_datetime: datetime
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Fetch Titan007 public pages for a date range and score upcoming matches with the trained upset model.",
     )
-    parser.add_argument("--start-date", required=True, help="Inclusive start date in YYYY-MM-DD format.")
-    parser.add_argument("--end-date", required=True, help="Inclusive end date in YYYY-MM-DD format.")
+    parser.add_argument("--start-date", help="Inclusive start date in YYYY-MM-DD format.")
+    parser.add_argument("--end-date", help="Inclusive end date in YYYY-MM-DD format.")
+    parser.add_argument("--start-datetime", help="Inclusive start datetime in YYYY-MM-DD HH:MM format.")
+    parser.add_argument("--end-datetime", help="Inclusive end datetime in YYYY-MM-DD HH:MM format.")
     parser.add_argument("--top-n", type=int, default=20, help="How many highest-upset-score matches to print.")
     parser.add_argument(
         "--competitions",
@@ -68,7 +78,95 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         help="Optional draw-upset model artifact path. When provided, predictions also include draw_upset_probability.",
     )
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    _validate_window_args(parser, args)
+    return args
+
+
+def _validate_window_args(parser: argparse.ArgumentParser, args: argparse.Namespace) -> None:
+    if not args.start_date and not args.start_datetime:
+        parser.error("one of --start-date or --start-datetime is required")
+    if not args.end_date and not args.end_datetime:
+        parser.error("one of --end-date or --end-datetime is required")
+    if args.start_date and args.start_datetime:
+        parser.error("use either --start-date or --start-datetime, not both")
+    if args.end_date and args.end_datetime:
+        parser.error("use either --end-date or --end-datetime, not both")
+
+
+def _parse_prediction_datetime(value: str) -> datetime:
+    for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%dT%H:%M"):
+        try:
+            return datetime.strptime(value, fmt)
+        except ValueError:
+            continue
+    raise ValueError(f"Unsupported datetime format: {value}")
+
+
+def resolve_prediction_window(args: argparse.Namespace) -> PredictionWindow:
+    if args.start_datetime:
+        start_datetime = _parse_prediction_datetime(args.start_datetime)
+    else:
+        start_datetime = datetime.combine(date.fromisoformat(args.start_date), time(hour=0, minute=0))
+    if args.end_datetime:
+        end_datetime = _parse_prediction_datetime(args.end_datetime)
+    else:
+        end_datetime = datetime.combine(date.fromisoformat(args.end_date), time(hour=23, minute=59))
+    if end_datetime < start_datetime:
+        raise ValueError("end datetime must be on or after start datetime")
+    return PredictionWindow(
+        fetch_start_date=start_datetime.date().isoformat(),
+        fetch_end_date=end_datetime.date().isoformat(),
+        start_datetime=start_datetime,
+        end_datetime=end_datetime,
+    )
+
+
+def _kickoff_datetime(match_date: str, kickoff_time: str) -> datetime:
+    kickoff_value = kickoff_time.strip() if kickoff_time else "00:00"
+    return datetime.strptime(f"{match_date} {kickoff_value}", "%Y-%m-%d %H:%M")
+
+
+def _is_in_prediction_window(match_date: str, kickoff_time: str, window: PredictionWindow) -> bool:
+    kickoff_datetime = _kickoff_datetime(match_date, kickoff_time)
+    return window.start_datetime <= kickoff_datetime <= window.end_datetime
+
+
+def _filter_structured_matches_by_window(
+    rows: list[dict[str, object]],
+    window: PredictionWindow,
+) -> tuple[list[dict[str, object]], set[int]]:
+    filtered_rows: list[dict[str, object]] = []
+    schedule_ids: set[int] = set()
+    for row in rows:
+        match_date = str(row.get("match_date", ""))
+        kickoff_time = str(row.get("kickoff_time", ""))
+        if _is_in_prediction_window(match_date, kickoff_time, window):
+            filtered_rows.append(row)
+            schedule_id = row.get("schedule_id")
+            if schedule_id is not None:
+                schedule_ids.add(int(schedule_id))
+    return filtered_rows, schedule_ids
+
+
+def _filter_snapshot_rows_by_window(rows: list[dict[str, str]], window: PredictionWindow) -> list[dict[str, str]]:
+    return [
+        row
+        for row in rows
+        if _is_in_prediction_window(row.get("match_date", ""), row.get("kickoff_time", ""), window)
+    ]
+
+
+def _filter_serialized_odds_by_schedule_ids(rows: list[dict[str, object]], schedule_ids: set[int]) -> list[dict[str, object]]:
+    return [row for row in rows if int(row.get("schedule_id", -1)) in schedule_ids]
+
+
+def _filter_predictions_by_window(predictions: list, window: PredictionWindow) -> list:
+    return [
+        prediction
+        for prediction in predictions
+        if _is_in_prediction_window(prediction.match_date, prediction.kickoff_time, window)
+    ]
 
 
 def save_csv(rows: list[dict[str, object]], output_path: Path) -> Path:
@@ -180,11 +278,14 @@ def write_run_outputs(
     draw_ranking_csv_path: Path | None = None,
     betting_ranking_csv_path: Path | None = None,
     betting_ranking_json_path: Path | None = None,
+    prediction_window: PredictionWindow,
 ) -> None:
     summary = {
         "run_id": run_id,
-        "start_date": args.start_date,
-        "end_date": args.end_date,
+        "start_date": prediction_window.fetch_start_date,
+        "end_date": prediction_window.fetch_end_date,
+        "start_datetime": prediction_window.start_datetime.strftime("%Y-%m-%d %H:%M"),
+        "end_datetime": prediction_window.end_datetime.strftime("%Y-%m-%d %H:%M"),
         "competition_filter_mode": competition_filter_mode,
         "requested_competitions": requested_competitions,
         "selected_competitions": sorted(selected_competitions),
@@ -208,6 +309,7 @@ def write_run_outputs(
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    prediction_window = resolve_prediction_window(args)
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     raw_run_dir = TITAN007_RAW_DIR / run_id
     interim_run_dir = TITAN007_INTERIM_DIR / run_id
@@ -223,7 +325,7 @@ def main(argv: list[str] | None = None) -> int:
     snapshot_rows: list[dict[str, str]] = []
     failures: list[dict[str, str]] = []
 
-    for match_date in iter_match_dates(args.start_date, args.end_date):
+    for match_date in iter_match_dates(prediction_window.fetch_start_date, prediction_window.fetch_end_date):
         schedule_url = build_schedule_url(match_date)
         schedule_path = raw_run_dir / "schedule" / f"{match_date}.html"
         try:
@@ -305,6 +407,13 @@ def main(argv: list[str] | None = None) -> int:
 
             snapshot_rows.append(build_snapshot_row(match, snapshot, asian=asian_snapshot, over_under=over_under_snapshot))
 
+    structured_matches, filtered_schedule_ids = _filter_structured_matches_by_window(structured_matches, prediction_window)
+    structured_snapshots = _filter_serialized_odds_by_schedule_ids(structured_snapshots, filtered_schedule_ids)
+    structured_asian = _filter_serialized_odds_by_schedule_ids(structured_asian, filtered_schedule_ids)
+    structured_over_under = _filter_serialized_odds_by_schedule_ids(structured_over_under, filtered_schedule_ids)
+    snapshot_rows = _filter_snapshot_rows_by_window(snapshot_rows, prediction_window)
+    selected_competitions = {str(row.get("competition_code", "")) for row in structured_matches if row.get("competition_code")}
+
     snapshot_csv_path = interim_run_dir / "snapshot_rows.csv"
     save_csv(snapshot_rows, snapshot_csv_path)
     write_json(interim_run_dir / "matches.json", structured_matches)
@@ -347,8 +456,9 @@ def main(argv: list[str] | None = None) -> int:
             snapshot_rows=snapshot_rows,
             scored_row_count=0,
             snapshot_csv_path=snapshot_csv_path,
+            prediction_window=prediction_window,
         )
-        print("No valid Titan007 snapshot rows were produced for the requested date range.")
+        print("No valid Titan007 snapshot rows were produced for the requested prediction window.")
         print(f"Schedule pages cached under: {raw_run_dir / 'schedule'}")
         print(f"Failure report saved to: {interim_run_dir / 'failures.json'}")
         return 1
@@ -381,6 +491,26 @@ def main(argv: list[str] | None = None) -> int:
             )
             if draw_prediction is not None:
                 prediction.draw_upset_probability = draw_prediction.draw_upset_probability
+    predictions = _filter_predictions_by_window(predictions, prediction_window)
+    if not predictions:
+        write_run_outputs(
+            interim_run_dir=interim_run_dir,
+            failures=failures,
+            run_id=run_id,
+            args=args,
+            competition_filter_mode=competition_filter_mode,
+            requested_competitions=requested_competitions,
+            selected_competitions=selected_competitions,
+            raw_run_dir=raw_run_dir,
+            structured_matches=structured_matches,
+            snapshot_rows=snapshot_rows,
+            scored_row_count=0,
+            snapshot_csv_path=snapshot_csv_path,
+            prediction_window=prediction_window,
+        )
+        print("No matches remained after applying the requested prediction window.")
+        print(f"Failure report saved to {interim_run_dir / 'failures.json'}")
+        return 1
     apply_combined_ranking_fields(predictions)
     apply_betting_recommendation_fields(
         predictions,
@@ -420,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
         draw_ranking_csv_path=draw_ranking_csv_path,
         betting_ranking_csv_path=betting_ranking_csv_path,
         betting_ranking_json_path=betting_ranking_json_path,
+        prediction_window=prediction_window,
     )
 
     print(

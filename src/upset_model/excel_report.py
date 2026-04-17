@@ -154,6 +154,8 @@ def _write_summary_sheet(
         ("report_generated_utc", run_summary.get("run_id", "")),
         ("start_date", run_summary.get("start_date", "")),
         ("end_date", run_summary.get("end_date", "")),
+        ("start_datetime", run_summary.get("start_datetime", "")),
+        ("end_datetime", run_summary.get("end_datetime", "")),
         ("competition_filter_mode", run_summary.get("competition_filter_mode", "")),
         ("requested_competitions", ", ".join(run_summary.get("requested_competitions", []))),
         ("selected_competitions", ", ".join(run_summary.get("selected_competitions", []))),

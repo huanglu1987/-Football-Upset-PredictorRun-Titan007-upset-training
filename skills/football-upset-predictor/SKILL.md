@@ -21,7 +21,7 @@ If the machine is brand new and you want bootstrap to immediately build the firs
 bash scripts/bootstrap_repo.sh --run-refresh-models
 ```
 
-## Predict a date range to Excel
+## Predict a date or datetime range to Excel
 
 Use the convenience entrypoint:
 
@@ -29,6 +29,14 @@ Use the convenience entrypoint:
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 PYTHONPATH=src python3 scripts/titan007_skill_entry.py predict-excel --start-date YYYY-MM-DD --end-date YYYY-MM-DD --top-n 20
+```
+
+For minute-level windows, use:
+
+```bash
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+PYTHONPATH=src python3 scripts/titan007_skill_entry.py predict-excel --start-datetime "YYYY-MM-DD HH:MM" --end-datetime "YYYY-MM-DD HH:MM" --top-n 20
 ```
 
 Defaults:

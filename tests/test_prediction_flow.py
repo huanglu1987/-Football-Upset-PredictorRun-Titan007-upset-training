@@ -10,7 +10,12 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts import predict_titan007_range
-from scripts.predict_titan007_range import apply_combined_ranking_fields, sort_combined_rankings, sort_draw_rankings
+from scripts.predict_titan007_range import (
+    apply_combined_ranking_fields,
+    resolve_prediction_window,
+    sort_combined_rankings,
+    sort_draw_rankings,
+)
 from upset_model.betting_recommendations import (
     apply_betting_recommendation_fields,
     build_final_betting_rows,
@@ -78,6 +83,23 @@ def make_artifact(*, labels: list[str], threshold: float) -> SoftmaxModelArtifac
 
 
 class PredictionFlowTests(unittest.TestCase):
+    def test_resolve_prediction_window_accepts_datetime_window(self) -> None:
+        args = predict_titan007_range.parse_args(
+            [
+                "--start-datetime",
+                "2026-04-17 22:00",
+                "--end-datetime",
+                "2026-04-18 12:00",
+            ]
+        )
+
+        window = resolve_prediction_window(args)
+
+        self.assertEqual(window.fetch_start_date, "2026-04-17")
+        self.assertEqual(window.fetch_end_date, "2026-04-18")
+        self.assertEqual(window.start_datetime.strftime("%Y-%m-%d %H:%M"), "2026-04-17 22:00")
+        self.assertEqual(window.end_datetime.strftime("%Y-%m-%d %H:%M"), "2026-04-18 12:00")
+
     def test_prediction_run_writes_failures_when_schedule_fetch_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
@@ -202,6 +224,62 @@ class PredictionFlowTests(unittest.TestCase):
         self.assertAlmostEqual(predictions[1].secondary_candidate_probability or 0.0, 0.21)
         self.assertEqual(combined_rankings[0].home_team, "A")
         self.assertEqual(draw_rankings[0].home_team, "A")
+
+    def test_prediction_window_filters_matches_outside_hour_range(self) -> None:
+        predictions = [
+            PredictionRow(
+                match_date="2026-04-17",
+                kickoff_time="17:00",
+                competition_code="E0",
+                competition_name="Premier League",
+                season_key="2526",
+                home_team="Before",
+                away_team="Window",
+                home_upset_probability=0.31,
+                away_upset_probability=0.22,
+                non_upset_probability=0.47,
+                upset_score=0.53,
+                candidate_label="home_upset_win",
+                candidate_probability=0.31,
+                predicted_label="non_upset",
+                actual_label="unknown",
+                explanation="x",
+                draw_upset_probability=0.56,
+            ),
+            PredictionRow(
+                match_date="2026-04-17",
+                kickoff_time="22:00",
+                competition_code="E0",
+                competition_name="Premier League",
+                season_key="2526",
+                home_team="Inside",
+                away_team="Window",
+                home_upset_probability=0.42,
+                away_upset_probability=0.18,
+                non_upset_probability=0.40,
+                upset_score=0.60,
+                candidate_label="home_upset_win",
+                candidate_probability=0.42,
+                predicted_label="home_upset_win",
+                actual_label="unknown",
+                explanation="y",
+                draw_upset_probability=0.21,
+            ),
+        ]
+        args = predict_titan007_range.parse_args(
+            [
+                "--start-datetime",
+                "2026-04-17 22:00",
+                "--end-datetime",
+                "2026-04-18 12:00",
+            ]
+        )
+        window = resolve_prediction_window(args)
+
+        filtered = predict_titan007_range._filter_predictions_by_window(predictions, window)
+
+        self.assertEqual(len(filtered), 1)
+        self.assertEqual(filtered[0].home_team, "Inside")
 
     def test_betting_recommendations_add_direction_confidence_and_reason(self) -> None:
         predictions = [

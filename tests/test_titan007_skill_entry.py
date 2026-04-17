@@ -110,6 +110,21 @@ class Titan007SkillEntryTests(unittest.TestCase):
         args = parse_args(["train-models"])
         self.assertEqual(args.market_profile, "full_markets")
 
+    def test_parse_args_predict_excel_accepts_datetime_window(self) -> None:
+        args = parse_args(
+            [
+                "predict-excel",
+                "--start-datetime",
+                "2026-04-17 22:00",
+                "--end-datetime",
+                "2026-04-18 12:00",
+            ]
+        )
+        self.assertEqual(args.start_datetime, "2026-04-17 22:00")
+        self.assertEqual(args.end_datetime, "2026-04-18 12:00")
+        self.assertIsNone(args.start_date)
+        self.assertIsNone(args.end_date)
+
     def test_parse_args_bootstrap_defaults_to_repo_venv(self) -> None:
         args = parse_args(["bootstrap"])
         self.assertEqual(args.venv_path, PROJECT_ROOT / ".venv")

@@ -40,6 +40,17 @@ PREDICTION_RUN_PATTERN = re.compile(r"^\d{8}T\d{6}Z$")
 HISTORY_RUN_PATTERN = re.compile(r"^history_\d{8}T\d{6}Z$")
 
 
+def _validate_predict_window_args(parser: argparse.ArgumentParser, args: argparse.Namespace) -> None:
+    if not getattr(args, "start_date", None) and not getattr(args, "start_datetime", None):
+        parser.error("one of --start-date or --start-datetime is required")
+    if not getattr(args, "end_date", None) and not getattr(args, "end_datetime", None):
+        parser.error("one of --end-date or --end-datetime is required")
+    if getattr(args, "start_date", None) and getattr(args, "start_datetime", None):
+        parser.error("use either --start-date or --start-datetime, not both")
+    if getattr(args, "end_date", None) and getattr(args, "end_datetime", None):
+        parser.error("use either --end-date or --end-datetime, not both")
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Convenience entrypoint for the Titan007 upset workflow.",
@@ -50,8 +61,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "predict-range",
         help="Fetch Titan007 public pages for a date range and score the matches with the active models.",
     )
-    predict_parser.add_argument("--start-date", required=True, help="Inclusive start date in YYYY-MM-DD format.")
-    predict_parser.add_argument("--end-date", required=True, help="Inclusive end date in YYYY-MM-DD format.")
+    predict_parser.add_argument("--start-date", help="Inclusive start date in YYYY-MM-DD format.")
+    predict_parser.add_argument("--end-date", help="Inclusive end date in YYYY-MM-DD format.")
+    predict_parser.add_argument("--start-datetime", help="Inclusive start datetime in YYYY-MM-DD HH:MM format.")
+    predict_parser.add_argument("--end-datetime", help="Inclusive end datetime in YYYY-MM-DD HH:MM format.")
     predict_parser.add_argument("--top-n", type=int, default=20, help="How many matches to print from each leaderboard.")
     predict_parser.add_argument("--model-path", type=Path, default=DEFAULT_MAIN_MODEL_PATH, help="Main upset model path.")
     predict_parser.add_argument(
@@ -70,8 +83,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "predict-excel",
         help="Run the Titan007 prediction flow and export an Excel workbook.",
     )
-    predict_excel_parser.add_argument("--start-date", required=True, help="Inclusive start date in YYYY-MM-DD format.")
-    predict_excel_parser.add_argument("--end-date", required=True, help="Inclusive end date in YYYY-MM-DD format.")
+    predict_excel_parser.add_argument("--start-date", help="Inclusive start date in YYYY-MM-DD format.")
+    predict_excel_parser.add_argument("--end-date", help="Inclusive end date in YYYY-MM-DD format.")
+    predict_excel_parser.add_argument("--start-datetime", help="Inclusive start datetime in YYYY-MM-DD HH:MM format.")
+    predict_excel_parser.add_argument("--end-datetime", help="Inclusive end datetime in YYYY-MM-DD HH:MM format.")
     predict_excel_parser.add_argument("--top-n", type=int, default=20, help="How many matches to print from each leaderboard.")
     predict_excel_parser.add_argument("--model-path", type=Path, default=DEFAULT_MAIN_MODEL_PATH, help="Main upset model path.")
     predict_excel_parser.add_argument(
@@ -200,7 +215,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Use 1X2-only historical backfill when --run-refresh-models is enabled.",
     )
 
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if args.command in {"predict-range", "predict-excel"}:
+        _validate_predict_window_args(
+            predict_parser if args.command == "predict-range" else predict_excel_parser,
+            args,
+        )
+    return args
 
 
 def _list_matching_run_dirs(pattern: re.Pattern[str]) -> set[Path]:
@@ -305,16 +326,15 @@ def _cached_date_ranges(summary_path: Path) -> list[str]:
 
 
 def _build_predict_forwarded_args(args: argparse.Namespace) -> list[str]:
-    forwarded_args = [
-        "--start-date",
-        args.start_date,
-        "--end-date",
-        args.end_date,
-        "--top-n",
-        str(args.top_n),
-        "--model-path",
-        str(args.model_path),
-    ]
+    forwarded_args = ["--top-n", str(args.top_n), "--model-path", str(args.model_path)]
+    if args.start_date:
+        forwarded_args.extend(["--start-date", args.start_date])
+    if args.end_date:
+        forwarded_args.extend(["--end-date", args.end_date])
+    if getattr(args, "start_datetime", None):
+        forwarded_args.extend(["--start-datetime", args.start_datetime])
+    if getattr(args, "end_datetime", None):
+        forwarded_args.extend(["--end-datetime", args.end_datetime])
     if args.draw_model_path.exists():
         forwarded_args.extend(["--draw-model-path", str(args.draw_model_path)])
     else:
