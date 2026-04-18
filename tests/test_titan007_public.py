@@ -376,6 +376,11 @@ class Titan007PublicTests(unittest.TestCase):
         self.assertEqual(training_row.competition_name, "中乙")
         self.assertEqual(training_row.feature_is_premier_league, 0.0)
         self.assertEqual(training_row.feature_is_la_liga, 0.0)
+        competition_bucket_sum = sum(
+            getattr(training_row, f"feature_competition_bucket_{index}")
+            for index in range(12)
+        )
+        self.assertEqual(competition_bucket_sum, 1.0)
 
 
 if __name__ == "__main__":

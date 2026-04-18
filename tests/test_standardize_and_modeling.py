@@ -1,6 +1,7 @@
 import unittest
 
 from upset_model.modeling import (
+    PredictionRow,
     compute_class_weights,
     evaluate_threshold_policy,
     predict_row_probabilities,
@@ -260,6 +261,33 @@ class StandardizeAndModelingTests(unittest.TestCase):
             threshold=threshold_result.threshold,
         )
         self.assertAlmostEqual(threshold_metrics.threshold, threshold_result.threshold)
+
+    def test_evaluate_threshold_policy_uses_candidate_probability_gate(self) -> None:
+        predictions = [
+            PredictionRow(
+                match_date="2026-04-18",
+                kickoff_time="15:00",
+                competition_code="E0",
+                competition_name="Premier League",
+                season_key="2526",
+                home_team="A",
+                away_team="B",
+                home_upset_probability=0.34,
+                away_upset_probability=0.30,
+                non_upset_probability=0.36,
+                upset_score=0.64,
+                candidate_label=UPSET_LABEL_HOME,
+                candidate_probability=0.34,
+                predicted_label=UPSET_LABEL_HOME,
+                actual_label=UPSET_LABEL_NONE,
+                explanation="x",
+            ),
+        ]
+
+        threshold_metrics = evaluate_threshold_policy(predictions, threshold=0.50)
+
+        self.assertEqual(threshold_metrics.predicted_upsets, 0)
+        self.assertEqual(threshold_metrics.accuracy, 1.0)
 
 
 if __name__ == "__main__":

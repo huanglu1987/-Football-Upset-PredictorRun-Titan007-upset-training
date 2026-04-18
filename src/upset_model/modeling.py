@@ -33,6 +33,10 @@ class SoftmaxModelArtifact:
     metrics: dict[str, object]
     decision_threshold: float | None = None
     decision_metrics: dict[str, object] | None = None
+    betting_policy: dict[str, object] | None = None
+    training_competition_scope: str | None = None
+    training_competitions: list[str] | None = None
+    training_market_profile: str | None = None
 
 
 @dataclass
@@ -272,7 +276,7 @@ def choose_predicted_label(
     if threshold is None:
         predicted_label = max(probabilities, key=probabilities.get)
     else:
-        predicted_label = candidate_label if upset_score >= threshold else "non_upset"
+        predicted_label = candidate_label if candidate_probability >= threshold else "non_upset"
     return predicted_label, candidate_label, candidate_probability, upset_score
 
 
@@ -376,7 +380,7 @@ def evaluate_threshold_policy(
     }
 
     for prediction in prediction_list:
-        predicted_label = prediction.candidate_label if prediction.upset_score >= threshold else "non_upset"
+        predicted_label = prediction.candidate_label if prediction.candidate_probability >= threshold else "non_upset"
         actual_label = prediction.actual_label
         if predicted_label == actual_label:
             correct += 1
@@ -431,7 +435,7 @@ def recommend_decision_threshold(
     thresholds: Iterable[float] | None = None,
 ) -> ThresholdPolicyResult:
     prediction_list = list(predictions)
-    candidate_thresholds = list(thresholds or [value / 100 for value in range(35, 81)])
+    candidate_thresholds = list(thresholds or [value / 100 for value in range(20, 81)])
     evaluated = [
         evaluate_threshold_policy(prediction_list, threshold=threshold)
         for threshold in candidate_thresholds
@@ -519,6 +523,10 @@ def save_training_report(artifact: SoftmaxModelArtifact, output_path: Path | Non
         "metrics": artifact.metrics,
         "decision_threshold": artifact.decision_threshold,
         "decision_metrics": artifact.decision_metrics,
+        "betting_policy": artifact.betting_policy,
+        "training_competition_scope": artifact.training_competition_scope,
+        "training_competitions": artifact.training_competitions,
+        "training_market_profile": artifact.training_market_profile,
         "feature_names": artifact.feature_names,
     }
     target.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

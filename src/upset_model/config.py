@@ -53,6 +53,7 @@ FOOTBALL_DATA_COMPETITIONS = {
     "I1": FootballDataCompetition(code="I1", slug="serie-a", display_name="Serie A"),
     "F1": FootballDataCompetition(code="F1", slug="ligue-1", display_name="Ligue 1"),
 }
+DEFAULT_TITAN007_TRAINING_COMPETITION_CODES = tuple(FOOTBALL_DATA_COMPETITIONS.keys())
 
 FOOTBALL_DATA_COMPETITION_ALIASES = {
     "premierleague": "E0",

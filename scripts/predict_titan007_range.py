@@ -4,6 +4,8 @@ import argparse
 import csv
 import json
 import sys
+import time as time_module
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, fields
 from datetime import date, datetime, time, timezone
 from pathlib import Path
@@ -35,6 +37,7 @@ from upset_model.betting_recommendations import (
     build_final_betting_rows,
 )
 from upset_model.config import (
+    DEFAULT_TITAN007_TRAINING_COMPETITION_CODES,
     TITAN007_INTERIM_DIR,
     TITAN007_RAW_DIR,
     current_european_season_start_year,
@@ -45,6 +48,9 @@ from upset_model.draw_model import score_draw_rows
 from upset_model.modeling import load_model_artifact, save_prediction_report, score_rows
 from upset_model.standardize import snapshot_row_to_training_row
 
+PREDICTION_CACHE_TTL_SECONDS = 15 * 60
+SIDE_MARKET_FETCH_MAX_WORKERS = 8
+
 
 @dataclass(frozen=True)
 class PredictionWindow:
@@ -52,6 +58,28 @@ class PredictionWindow:
     fetch_end_date: str
     start_datetime: datetime
     end_datetime: datetime
+
+
+@dataclass(frozen=True)
+class SideMarketFetchResult:
+    schedule_id: int
+    asian_snapshot: object | None
+    asian_row: dict[str, object] | None
+    over_under_snapshot: object | None
+    over_under_row: dict[str, object] | None
+    failures: list[dict[str, str]]
+
+
+@dataclass(frozen=True)
+class MatchFetchResult:
+    schedule_id: int
+    europe_snapshot: object | None
+    europe_row: dict[str, object] | None
+    asian_snapshot: object | None
+    asian_row: dict[str, object] | None
+    over_under_snapshot: object | None
+    over_under_row: dict[str, object] | None
+    failures: list[dict[str, str]]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -64,9 +92,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--end-datetime", help="Inclusive end datetime in YYYY-MM-DD HH:MM format.")
     parser.add_argument("--top-n", type=int, default=20, help="How many highest-upset-score matches to print.")
     parser.add_argument(
+        "--skip-side-markets",
+        action="store_true",
+        help="Only fetch schedule pages and 1X2 odds, skipping Asian handicap and over/under pages for faster prediction.",
+    )
+    parser.add_argument(
         "--competitions",
         nargs="*",
-        help="Optional competition filters. Supports existing codes and Titan007 competition names. Defaults to all competitions.",
+        help="Optional competition filters. Supports existing codes and Titan007 competition names. Defaults to the active model training domain when available.",
     )
     parser.add_argument(
         "--model-path",
@@ -149,6 +182,14 @@ def _filter_structured_matches_by_window(
     return filtered_rows, schedule_ids
 
 
+def _filter_matches_by_window(matches: list, window: PredictionWindow) -> list:
+    return [
+        match
+        for match in matches
+        if _is_in_prediction_window(match.match_date, match.kickoff_time, window)
+    ]
+
+
 def _filter_snapshot_rows_by_window(rows: list[dict[str, str]], window: PredictionWindow) -> list[dict[str, str]]:
     return [
         row
@@ -186,8 +227,17 @@ def save_csv(rows: list[dict[str, object]], output_path: Path) -> Path:
         output_path.write_text("", encoding="utf-8")
         return output_path
 
+    fieldnames: list[str] = []
+    seen_fieldnames: set[str] = set()
+    for row in rows:
+        for key in row.keys():
+            if key in seen_fieldnames:
+                continue
+            seen_fieldnames.add(key)
+            fieldnames.append(key)
+
     with output_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
             writer.writerow(row)
@@ -204,6 +254,29 @@ def save_prediction_csv(predictions: list, output_path: Path) -> Path:
     return output_path
 
 
+def prediction_raw_cache_dir() -> Path:
+    return TITAN007_RAW_DIR / "prediction_cache"
+
+
+def _is_fresh_cache_file(path: Path, *, max_age_seconds: int) -> bool:
+    if not path.exists():
+        return False
+    age_seconds = max(0.0, time_module.time() - path.stat().st_mtime)
+    return age_seconds <= max_age_seconds
+
+
+def load_or_fetch_text(
+    output_path: Path,
+    url: str,
+    *,
+    encoding: str,
+    max_age_seconds: int = PREDICTION_CACHE_TTL_SECONDS,
+) -> str:
+    if _is_fresh_cache_file(output_path, max_age_seconds=max_age_seconds):
+        return output_path.read_text(encoding="utf-8")
+    return fetch_text(url, encoding=encoding, output_path=output_path)
+
+
 def prediction_season_key(match_date: str) -> str:
     current_date = date.fromisoformat(match_date)
     start_year = current_european_season_start_year(today=current_date)
@@ -212,6 +285,213 @@ def prediction_season_key(match_date: str) -> str:
 
 def prediction_match_key(match_date: str, kickoff_time: str, competition_code: str, home_team: str, away_team: str) -> tuple[str, str, str, str, str]:
     return (match_date, kickoff_time, competition_code, home_team, away_team)
+
+
+def _fetch_side_markets_for_match(match, *, raw_cache_dir: Path) -> SideMarketFetchResult:
+    failures: list[dict[str, str]] = []
+    asian_snapshot = None
+    asian_row = None
+    over_under_snapshot = None
+    over_under_row = None
+
+    asian_url = build_asian_odds_url(match.schedule_id)
+    asian_path = raw_cache_dir / "asian" / f"{match.schedule_id}.html"
+    try:
+        asian_html = load_or_fetch_text(asian_path, asian_url, encoding="gb18030")
+        asian_snapshot = parse_asian_odds_snapshot(asian_html, schedule_id=match.schedule_id)
+        asian_row = serialize_asian_snapshot(asian_snapshot)
+    except Exception as exc:
+        failures.append(
+            {
+                "scope": "asian_odds",
+                "match_date": match.match_date,
+                "schedule_id": str(match.schedule_id),
+                "url": asian_url,
+                "error": str(exc),
+            }
+        )
+
+    over_under_url = build_over_under_url(match.schedule_id)
+    over_under_path = raw_cache_dir / "over_under" / f"{match.schedule_id}.html"
+    try:
+        over_under_html = load_or_fetch_text(over_under_path, over_under_url, encoding="gb18030")
+        over_under_snapshot = parse_over_under_snapshot(over_under_html, schedule_id=match.schedule_id)
+        over_under_row = serialize_over_under_snapshot(over_under_snapshot)
+    except Exception as exc:
+        failures.append(
+            {
+                "scope": "over_under_odds",
+                "match_date": match.match_date,
+                "schedule_id": str(match.schedule_id),
+                "url": over_under_url,
+                "error": str(exc),
+            }
+        )
+
+    return SideMarketFetchResult(
+        schedule_id=match.schedule_id,
+        asian_snapshot=asian_snapshot,
+        asian_row=asian_row,
+        over_under_snapshot=over_under_snapshot,
+        over_under_row=over_under_row,
+        failures=failures,
+    )
+
+
+def _fetch_match_for_prediction(
+    match,
+    *,
+    raw_cache_dir: Path,
+) -> MatchFetchResult:
+    failures: list[dict[str, str]] = []
+    europe_snapshot = None
+    europe_row = None
+    euro_url = build_1x2_data_url(match.schedule_id)
+    euro_path = raw_cache_dir / "1x2" / f"{match.schedule_id}.js"
+    try:
+        euro_js = load_or_fetch_text(euro_path, euro_url, encoding="utf-8")
+        europe_snapshot = parse_europe_odds_snapshot(euro_js, schedule_id=match.schedule_id)
+        europe_row = serialize_europe_snapshot(europe_snapshot)
+    except Exception as exc:
+        failures.append(
+            {
+                "scope": "europe_odds",
+                "match_date": match.match_date,
+                "schedule_id": str(match.schedule_id),
+                "url": euro_url,
+                "error": str(exc),
+            }
+        )
+        return MatchFetchResult(
+            schedule_id=match.schedule_id,
+            europe_snapshot=None,
+            europe_row=None,
+            asian_snapshot=None,
+            asian_row=None,
+            over_under_snapshot=None,
+            over_under_row=None,
+            failures=failures,
+        )
+
+    side_market_result = _fetch_side_markets_for_match(match, raw_cache_dir=raw_cache_dir)
+    failures.extend(side_market_result.failures)
+    return MatchFetchResult(
+        schedule_id=match.schedule_id,
+        europe_snapshot=europe_snapshot,
+        europe_row=europe_row,
+        asian_snapshot=side_market_result.asian_snapshot,
+        asian_row=side_market_result.asian_row,
+        over_under_snapshot=side_market_result.over_under_snapshot,
+        over_under_row=side_market_result.over_under_row,
+        failures=failures,
+    )
+
+
+def _fetch_matches_for_prediction(
+    matches: list,
+    *,
+    raw_cache_dir: Path,
+    include_side_markets: bool,
+) -> tuple[dict[int, MatchFetchResult], list[dict[str, str]]]:
+    if not matches:
+        return {}, []
+
+    results_by_schedule_id: dict[int, MatchFetchResult] = {}
+    failures: list[dict[str, str]] = []
+    match_by_schedule_id = {match.schedule_id: match for match in matches}
+    max_workers = min(SIDE_MARKET_FETCH_MAX_WORKERS, len(matches))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_schedule_id = {
+            executor.submit(
+                _fetch_match_for_prediction if include_side_markets else _fetch_europe_only_for_prediction,
+                match,
+                raw_cache_dir=raw_cache_dir,
+            ): match.schedule_id
+            for match in matches
+        }
+        for future in as_completed(future_to_schedule_id):
+            schedule_id = future_to_schedule_id[future]
+            match = match_by_schedule_id[schedule_id]
+            try:
+                result = future.result()
+            except Exception as exc:
+                failures.append(
+                    {
+                        "scope": "side_markets",
+                        "match_date": match.match_date,
+                        "schedule_id": str(match.schedule_id),
+                        "url": "",
+                        "error": str(exc),
+                    }
+                )
+                continue
+            results_by_schedule_id[schedule_id] = result
+            failures.extend(result.failures)
+    return results_by_schedule_id, failures
+
+
+def _fetch_europe_only_for_prediction(
+    match,
+    *,
+    raw_cache_dir: Path,
+) -> MatchFetchResult:
+    failures: list[dict[str, str]] = []
+    euro_url = build_1x2_data_url(match.schedule_id)
+    euro_path = raw_cache_dir / "1x2" / f"{match.schedule_id}.js"
+    try:
+        euro_js = load_or_fetch_text(euro_path, euro_url, encoding="utf-8")
+        europe_snapshot = parse_europe_odds_snapshot(euro_js, schedule_id=match.schedule_id)
+        europe_row = serialize_europe_snapshot(europe_snapshot)
+    except Exception as exc:
+        failures.append(
+            {
+                "scope": "europe_odds",
+                "match_date": match.match_date,
+                "schedule_id": str(match.schedule_id),
+                "url": euro_url,
+                "error": str(exc),
+            }
+        )
+        return MatchFetchResult(
+            schedule_id=match.schedule_id,
+            europe_snapshot=None,
+            europe_row=None,
+            asian_snapshot=None,
+            asian_row=None,
+            over_under_snapshot=None,
+            over_under_row=None,
+            failures=failures,
+        )
+    return MatchFetchResult(
+        schedule_id=match.schedule_id,
+        europe_snapshot=europe_snapshot,
+        europe_row=europe_row,
+        asian_snapshot=None,
+        asian_row=None,
+        over_under_snapshot=None,
+        over_under_row=None,
+        failures=failures,
+    )
+
+
+def _resolve_requested_competition_scope(
+    raw_values: list[str] | None,
+    artifact=None,
+) -> tuple[list[str], list[str], str]:
+    if raw_values:
+        competition_filters = list(raw_values)
+        competition_filter_mode = "explicit"
+    elif artifact is not None and getattr(artifact, "training_competition_scope", None) == "all":
+        competition_filters = []
+        competition_filter_mode = "model_training_domain_all"
+    elif artifact is not None and getattr(artifact, "training_competitions", None):
+        competition_filters = list(artifact.training_competitions or [])
+        competition_filter_mode = "model_training_domain_explicit"
+    else:
+        competition_filters = list(DEFAULT_TITAN007_TRAINING_COMPETITION_CODES)
+        competition_filter_mode = "default_training_domain"
+    requested_competitions = sorted(normalize_titan007_competition_filters(competition_filters))
+    return competition_filters, requested_competitions, competition_filter_mode
 
 
 def rank_candidate_scores(prediction) -> list[tuple[str, float]]:
@@ -276,6 +556,7 @@ def write_run_outputs(
     run_id: str,
     args: argparse.Namespace,
     competition_filter_mode: str,
+    fetch_market_profile: str,
     requested_competitions: list[str],
     selected_competitions: set[str],
     raw_run_dir: Path,
@@ -298,6 +579,7 @@ def write_run_outputs(
         "start_datetime": prediction_window.start_datetime.strftime("%Y-%m-%d %H:%M"),
         "end_datetime": prediction_window.end_datetime.strftime("%Y-%m-%d %H:%M"),
         "competition_filter_mode": competition_filter_mode,
+        "fetch_market_profile": fetch_market_profile,
         "requested_competitions": requested_competitions,
         "selected_competitions": sorted(selected_competitions),
         "scheduled_match_count": len(structured_matches),
@@ -320,13 +602,17 @@ def write_run_outputs(
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    artifact = load_model_artifact(args.model_path)
     prediction_window = resolve_prediction_window(args)
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    raw_run_dir = TITAN007_RAW_DIR / run_id
+    raw_run_dir = prediction_raw_cache_dir()
     interim_run_dir = TITAN007_INTERIM_DIR / run_id
     interim_run_dir.mkdir(parents=True, exist_ok=True)
-    requested_competitions = sorted(normalize_titan007_competition_filters(args.competitions))
-    competition_filter_mode = "explicit" if requested_competitions else "all"
+    competition_filters, requested_competitions, competition_filter_mode = _resolve_requested_competition_scope(
+        args.competitions,
+        artifact=artifact,
+    )
+    fetch_market_profile = "1x2_only" if args.skip_side_markets else "full_markets"
     selected_competitions: set[str] = set()
 
     structured_matches: list[dict[str, object]] = []
@@ -340,14 +626,15 @@ def main(argv: list[str] | None = None) -> int:
         schedule_url = build_schedule_url(match_date)
         schedule_path = raw_run_dir / "schedule" / f"{match_date}.html"
         try:
-            schedule_html = fetch_text(schedule_url, encoding="gb18030", output_path=schedule_path)
+            schedule_html = load_or_fetch_text(schedule_path, schedule_url, encoding="gb18030")
             matches = parse_schedule_matches(
                 schedule_html,
                 match_date=match_date,
                 source_url=schedule_url,
-                allowed_competition_codes=args.competitions,
+                allowed_competition_codes=competition_filters,
             )
             matches = _dedupe_matches_by_schedule_id(matches)
+            matches = _filter_matches_by_window(matches, prediction_window)
             structured_matches.extend(serialize_schedule_matches(matches))
             selected_competitions.update(match.competition_code for match in matches)
         except Exception as exc:
@@ -362,62 +649,31 @@ def main(argv: list[str] | None = None) -> int:
             )
             continue
 
+        fetched_matches, match_fetch_failures = _fetch_matches_for_prediction(
+            matches,
+            raw_cache_dir=raw_run_dir,
+            include_side_markets=not args.skip_side_markets,
+        )
+        failures.extend(match_fetch_failures)
+
         for match in matches:
-            euro_url = build_1x2_data_url(match.schedule_id)
-            euro_path = raw_run_dir / "1x2" / f"{match.schedule_id}.js"
-            try:
-                euro_js = fetch_text(euro_url, encoding="utf-8", output_path=euro_path)
-                snapshot = parse_europe_odds_snapshot(euro_js, schedule_id=match.schedule_id)
-                structured_snapshots.append(serialize_europe_snapshot(snapshot))
-            except Exception as exc:
-                failures.append(
-                    {
-                        "scope": "europe_odds",
-                        "match_date": match.match_date,
-                        "schedule_id": str(match.schedule_id),
-                        "url": euro_url,
-                        "error": str(exc),
-                    }
-                )
+            fetched_match = fetched_matches.get(match.schedule_id)
+            if fetched_match is None or fetched_match.europe_snapshot is None:
                 continue
-
-            asian_snapshot = None
-            asian_url = build_asian_odds_url(match.schedule_id)
-            asian_path = raw_run_dir / "asian" / f"{match.schedule_id}.html"
-            try:
-                asian_html = fetch_text(asian_url, encoding="gb18030", output_path=asian_path)
-                asian_snapshot = parse_asian_odds_snapshot(asian_html, schedule_id=match.schedule_id)
-                structured_asian.append(serialize_asian_snapshot(asian_snapshot))
-            except Exception as exc:
-                failures.append(
-                    {
-                        "scope": "asian_odds",
-                        "match_date": match.match_date,
-                        "schedule_id": str(match.schedule_id),
-                        "url": asian_url,
-                        "error": str(exc),
-                    }
+            if fetched_match.europe_row is not None:
+                structured_snapshots.append(fetched_match.europe_row)
+            if fetched_match.asian_row is not None:
+                structured_asian.append(fetched_match.asian_row)
+            if fetched_match.over_under_row is not None:
+                structured_over_under.append(fetched_match.over_under_row)
+            snapshot_rows.append(
+                build_snapshot_row(
+                    match,
+                    fetched_match.europe_snapshot,
+                    asian=fetched_match.asian_snapshot,
+                    over_under=fetched_match.over_under_snapshot,
                 )
-
-            over_under_snapshot = None
-            over_under_url = build_over_under_url(match.schedule_id)
-            over_under_path = raw_run_dir / "over_under" / f"{match.schedule_id}.html"
-            try:
-                over_under_html = fetch_text(over_under_url, encoding="gb18030", output_path=over_under_path)
-                over_under_snapshot = parse_over_under_snapshot(over_under_html, schedule_id=match.schedule_id)
-                structured_over_under.append(serialize_over_under_snapshot(over_under_snapshot))
-            except Exception as exc:
-                failures.append(
-                    {
-                        "scope": "over_under_odds",
-                        "match_date": match.match_date,
-                        "schedule_id": str(match.schedule_id),
-                        "url": over_under_url,
-                        "error": str(exc),
-                    }
-                )
-
-            snapshot_rows.append(build_snapshot_row(match, snapshot, asian=asian_snapshot, over_under=over_under_snapshot))
+            )
 
     structured_matches, filtered_schedule_ids = _filter_structured_matches_by_window(structured_matches, prediction_window)
     structured_snapshots = _filter_serialized_odds_by_schedule_ids(structured_snapshots, filtered_schedule_ids)
@@ -461,6 +717,7 @@ def main(argv: list[str] | None = None) -> int:
             run_id=run_id,
             args=args,
             competition_filter_mode=competition_filter_mode,
+            fetch_market_profile=fetch_market_profile,
             requested_competitions=requested_competitions,
             selected_competitions=selected_competitions,
             raw_run_dir=raw_run_dir,
@@ -475,7 +732,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Failure report saved to: {interim_run_dir / 'failures.json'}")
         return 1
 
-    artifact = load_model_artifact(args.model_path)
     draw_artifact = None
     predictions = score_rows(training_rows, artifact)
     if args.draw_model_path:
@@ -511,6 +767,7 @@ def main(argv: list[str] | None = None) -> int:
             run_id=run_id,
             args=args,
             competition_filter_mode=competition_filter_mode,
+            fetch_market_profile=fetch_market_profile,
             requested_competitions=requested_competitions,
             selected_competitions=selected_competitions,
             raw_run_dir=raw_run_dir,
@@ -549,6 +806,7 @@ def main(argv: list[str] | None = None) -> int:
         run_id=run_id,
         args=args,
         competition_filter_mode=competition_filter_mode,
+        fetch_market_profile=fetch_market_profile,
         requested_competitions=requested_competitions,
         selected_competitions=selected_competitions,
         raw_run_dir=raw_run_dir,
@@ -567,7 +825,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(
         f"Collected {len(structured_matches)} Titan007 matches, built {len(snapshot_rows)} snapshot rows, "
-        f"scored {len(predictions)} matches.",
+        f"scored {len(predictions)} matches. Fetch mode: {fetch_market_profile}.",
     )
     print("Combined leaderboard:")
     for prediction in top_predictions:

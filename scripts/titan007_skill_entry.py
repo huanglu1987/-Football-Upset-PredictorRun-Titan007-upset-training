@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 import os
 import re
@@ -22,9 +23,16 @@ from scripts.backfill_titan007_history import main as backfill_history_main
 from scripts.predict_titan007_range import main as predict_range_main
 from scripts.train_draw_model import main as train_draw_main
 from scripts.train_upset_model import main as train_upset_main
-from upset_model.config import TITAN007_INTERIM_DIR, TITAN007_RAW_DIR, normalize_titan007_competition_filters
+from upset_model.betting_calibration import calibrate_betting_policy
+from upset_model.config import (
+    DEFAULT_TITAN007_TRAINING_COMPETITION_CODES,
+    TITAN007_INTERIM_DIR,
+    TITAN007_RAW_DIR,
+    normalize_titan007_competition_filters,
+)
 from upset_model.history_expander import load_history_window_groups, merge_training_row_files
-from upset_model.modeling import load_model_artifact
+from upset_model.modeling import load_model_artifact, save_model_artifact, split_rows_by_latest_season
+from upset_model.standardize import filter_rows_by_market_profile, load_training_rows
 
 DEFAULT_REFRESH_ROWS_PATH = PROJECT_ROOT / "data" / "interim" / "titan007" / "merged_default_windows" / "training_rows.csv"
 DEFAULT_INPUT_PATH = DEFAULT_REFRESH_ROWS_PATH
@@ -74,9 +82,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Optional draw-upset model path. If the file does not exist, draw ranking is skipped.",
     )
     predict_parser.add_argument(
+        "--skip-side-markets",
+        action="store_true",
+        help="Only fetch schedule pages and 1X2 odds for faster prediction.",
+    )
+    predict_parser.add_argument(
         "--competitions",
         nargs="*",
-        help="Optional competition-code filter, for example E0 SP1 D1 I1 F1.",
+        help="Optional competition-code filter, for example E0 SP1 D1 I1 F1. Defaults to the active model training domain when available.",
     )
 
     predict_excel_parser = subparsers.add_parser(
@@ -96,9 +109,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Optional draw-upset model path. If the file does not exist, draw ranking is skipped.",
     )
     predict_excel_parser.add_argument(
+        "--skip-side-markets",
+        action="store_true",
+        help="Only fetch schedule pages and 1X2 odds for faster prediction.",
+    )
+    predict_excel_parser.add_argument(
         "--competitions",
         nargs="*",
-        help="Optional competition-code filter, for example E0 SP1 D1 I1 F1.",
+        help="Optional competition-code filter, for example E0 SP1 D1 I1 F1. Defaults to the active model training domain when available.",
     )
     predict_excel_parser.add_argument(
         "--output-path",
@@ -339,9 +357,34 @@ def _build_predict_forwarded_args(args: argparse.Namespace) -> list[str]:
         forwarded_args.extend(["--draw-model-path", str(args.draw_model_path)])
     else:
         print(f"Draw model not found, continuing without draw ranking: {args.draw_model_path}")
+    if getattr(args, "skip_side_markets", False):
+        forwarded_args.append("--skip-side-markets")
     if args.competitions:
         forwarded_args.extend(["--competitions", *args.competitions])
     return forwarded_args
+
+
+def _resolve_training_competition_metadata(
+    rows,
+    *,
+    declared_scope: str | None = None,
+    declared_competitions: list[str] | None = None,
+) -> tuple[str | None, list[str]]:
+    unique_competitions = sorted({row.competition_code for row in rows if row.competition_code})
+    if declared_scope == "all":
+        return "all", []
+    if declared_scope == "explicit":
+        resolved_competitions = sorted(
+            normalize_titan007_competition_filters(
+                declared_competitions if declared_competitions is not None else unique_competitions
+            )
+        )
+        return "explicit", resolved_competitions
+    if not unique_competitions:
+        return None, []
+    if set(unique_competitions).issubset(DEFAULT_TITAN007_TRAINING_COMPETITION_CODES):
+        return "explicit", unique_competitions
+    return "explicit", unique_competitions
 
 
 def _predict_range(args: argparse.Namespace) -> int:
@@ -404,7 +447,7 @@ def _train_models(args: argparse.Namespace) -> int:
         "--input-path",
         str(args.input_path),
         "--class-weight-strategy",
-        "none",
+        "sqrt_balanced",
         "--epochs",
         "120",
         "--learning-rate",
@@ -451,7 +494,57 @@ def _train_models(args: argparse.Namespace) -> int:
     main_exit = train_upset_main(main_args)
     if main_exit != 0:
         return main_exit
-    return train_draw_main(draw_args)
+    draw_exit = train_draw_main(draw_args)
+    if draw_exit != 0:
+        return draw_exit
+
+    rows = load_training_rows(args.input_path)
+    if args.market_profile != "all":
+        rows = filter_rows_by_market_profile(rows, args.market_profile)
+    training_competition_scope, training_competitions = _resolve_training_competition_metadata(
+        rows,
+        declared_scope=getattr(args, "training_competition_scope", None),
+        declared_competitions=getattr(args, "training_competitions", None),
+    )
+    main_artifact = load_model_artifact(args.main_model_path)
+    draw_artifact = load_model_artifact(args.draw_model_path)
+    split = split_rows_by_latest_season(rows, validation_season=args.validation_season or main_artifact.validation_season)
+    calibrated_main_artifact, calibration_report = calibrate_betting_policy(
+        split.validation_rows,
+        main_artifact=main_artifact,
+        draw_artifact=draw_artifact,
+    )
+    calibrated_main_artifact = replace(
+        calibrated_main_artifact,
+        training_competition_scope=training_competition_scope,
+        training_competitions=training_competitions,
+        training_market_profile=args.market_profile,
+    )
+    save_model_artifact(calibrated_main_artifact, output_path=args.main_model_path)
+    _write_json(
+        main_report_path,
+        _load_json(main_report_path)
+        | {
+            "betting_policy": calibrated_main_artifact.betting_policy,
+            "training_competition_scope": calibrated_main_artifact.training_competition_scope,
+            "training_competitions": calibrated_main_artifact.training_competitions,
+            "training_market_profile": calibrated_main_artifact.training_market_profile,
+        },
+    )
+    calibration_report_path = DEFAULT_REPORT_DIR / f"titan007_betting_calibration_report_{run_id}.json"
+    _write_json(calibration_report_path, calibration_report)
+    strong_bucket = calibration_report.get("strong_bucket", {})
+    medium_bucket = calibration_report.get("medium_bucket", {})
+    weak_bucket = calibration_report.get("weak_bucket", {})
+    print(
+        "Betting calibration: "
+        f"direction_threshold={calibration_report['direction_threshold']:.2f}, "
+        f"strong={strong_bucket.get('count', 0)}@{strong_bucket.get('precision', 0.0):.3f}, "
+        f"medium={medium_bucket.get('count', 0)}@{medium_bucket.get('precision', 0.0):.3f}, "
+        f"weak={weak_bucket.get('count', 0)}@{weak_bucket.get('precision', 0.0):.3f}",
+    )
+    print(f"Betting calibration report saved to {calibration_report_path}")
+    return 0
 
 
 def _refresh_models(args: argparse.Namespace) -> int:
@@ -567,12 +660,25 @@ def _refresh_models(args: argparse.Namespace) -> int:
         return 1
 
     merged_output_path, merged_row_count = merge_training_row_files(successful_paths, output_path=args.merged_output_path)
+    has_global_window_group = any(not group.competitions for group in window_groups)
+    declared_training_scope = "all" if has_global_window_group else "explicit"
+    declared_training_competitions = sorted(
+        normalize_titan007_competition_filters(
+            [
+                competition
+                for group in window_groups
+                for competition in group.competitions
+            ]
+        )
+    )
     training_namespace = argparse.Namespace(
         input_path=merged_output_path,
         validation_season=args.validation_season,
         market_profile=args.market_profile,
         main_model_path=args.main_model_path,
         draw_model_path=args.draw_model_path,
+        training_competition_scope=declared_training_scope,
+        training_competitions=declared_training_competitions,
     )
     train_exit = _train_models(training_namespace)
     if train_exit != 0:

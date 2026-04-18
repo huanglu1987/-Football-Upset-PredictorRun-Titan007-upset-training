@@ -48,6 +48,7 @@ class ExcelReportTests(unittest.TestCase):
             "start_date": "2026-04-18",
             "end_date": "2026-04-20",
             "competition_filter_mode": "all",
+            "fetch_market_profile": "1x2_only",
             "requested_competitions": [],
             "selected_competitions": ["E0", "I1"],
             "scheduled_match_count": 10,
@@ -128,6 +129,8 @@ class ExcelReportTests(unittest.TestCase):
         self.assertEqual(workbook["combined_rankings"]["G2"].value, "draw_upset")
         self.assertAlmostEqual(workbook["combined_rankings"]["H2"].value, 0.56)
         summary_values = [cell for row in workbook["summary"].iter_rows(values_only=True) for cell in row if cell is not None]
+        self.assertIn("fetch_market_profile", summary_values)
+        self.assertIn("1x2_only", summary_values)
         self.assertIn("比赛时间", summary_values)
         self.assertIn("联赛", summary_values)
         self.assertIn("等级", summary_values)

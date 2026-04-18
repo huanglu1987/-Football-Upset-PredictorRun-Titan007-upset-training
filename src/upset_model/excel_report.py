@@ -157,6 +157,7 @@ def _write_summary_sheet(
         ("start_datetime", run_summary.get("start_datetime", "")),
         ("end_datetime", run_summary.get("end_datetime", "")),
         ("competition_filter_mode", run_summary.get("competition_filter_mode", "")),
+        ("fetch_market_profile", run_summary.get("fetch_market_profile", "")),
         ("requested_competitions", ", ".join(run_summary.get("requested_competitions", []))),
         ("selected_competitions", ", ".join(run_summary.get("selected_competitions", []))),
         ("scheduled_match_count", run_summary.get("scheduled_match_count", "")),

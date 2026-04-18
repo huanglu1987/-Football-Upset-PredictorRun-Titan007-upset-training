@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 from dataclasses import asdict, dataclass, fields, replace
 from datetime import datetime
 from pathlib import Path
@@ -22,6 +23,11 @@ COMPETITION_FEATURES = (
     ("D1", "feature_is_bundesliga"),
     ("I1", "feature_is_serie_a"),
     ("F1", "feature_is_ligue_1"),
+)
+COMPETITION_BUCKET_COUNT = 12
+COMPETITION_BUCKET_FEATURE_NAMES = tuple(
+    f"feature_competition_bucket_{index}"
+    for index in range(COMPETITION_BUCKET_COUNT)
 )
 
 @dataclass
@@ -104,6 +110,18 @@ class TrainingRow:
     feature_is_bundesliga: float
     feature_is_serie_a: float
     feature_is_ligue_1: float
+    feature_competition_bucket_0: float
+    feature_competition_bucket_1: float
+    feature_competition_bucket_2: float
+    feature_competition_bucket_3: float
+    feature_competition_bucket_4: float
+    feature_competition_bucket_5: float
+    feature_competition_bucket_6: float
+    feature_competition_bucket_7: float
+    feature_competition_bucket_8: float
+    feature_competition_bucket_9: float
+    feature_competition_bucket_10: float
+    feature_competition_bucket_11: float
 
 
 TRAINING_ROW_TYPE_HINTS = get_type_hints(TrainingRow)
@@ -167,6 +185,16 @@ def _favorite_gap(values: Iterable[float | None]) -> float | None:
     if len(available) < 2:
         return None
     return available[1] - available[0]
+
+
+def _competition_bucket_features(competition_code: str) -> dict[str, float]:
+    normalized_code = competition_code.strip().upper() or "UNKNOWN"
+    digest = hashlib.blake2b(normalized_code.encode("utf-8"), digest_size=2).digest()
+    bucket_index = int.from_bytes(digest, byteorder="big") % COMPETITION_BUCKET_COUNT
+    return {
+        feature_name: 1.0 if index == bucket_index else 0.0
+        for index, feature_name in enumerate(COMPETITION_BUCKET_FEATURE_NAMES)
+    }
 
 
 def _resolve_result_label(full_time_result: str, close_home_odds: float | None, close_draw_odds: float | None, close_away_odds: float | None) -> str:
@@ -250,6 +278,7 @@ def row_to_training_row(raw_row: dict[str, str], season_key: str) -> TrainingRow
         feature_name: 1.0 if competition_code == code else 0.0
         for code, feature_name in COMPETITION_FEATURES
     }
+    competition_bucket_features = _competition_bucket_features(competition_code)
 
     return TrainingRow(
         competition_code=competition_code,
@@ -332,6 +361,18 @@ def row_to_training_row(raw_row: dict[str, str], season_key: str) -> TrainingRow
         feature_is_bundesliga=competition_features["feature_is_bundesliga"],
         feature_is_serie_a=competition_features["feature_is_serie_a"],
         feature_is_ligue_1=competition_features["feature_is_ligue_1"],
+        feature_competition_bucket_0=competition_bucket_features["feature_competition_bucket_0"],
+        feature_competition_bucket_1=competition_bucket_features["feature_competition_bucket_1"],
+        feature_competition_bucket_2=competition_bucket_features["feature_competition_bucket_2"],
+        feature_competition_bucket_3=competition_bucket_features["feature_competition_bucket_3"],
+        feature_competition_bucket_4=competition_bucket_features["feature_competition_bucket_4"],
+        feature_competition_bucket_5=competition_bucket_features["feature_competition_bucket_5"],
+        feature_competition_bucket_6=competition_bucket_features["feature_competition_bucket_6"],
+        feature_competition_bucket_7=competition_bucket_features["feature_competition_bucket_7"],
+        feature_competition_bucket_8=competition_bucket_features["feature_competition_bucket_8"],
+        feature_competition_bucket_9=competition_bucket_features["feature_competition_bucket_9"],
+        feature_competition_bucket_10=competition_bucket_features["feature_competition_bucket_10"],
+        feature_competition_bucket_11=competition_bucket_features["feature_competition_bucket_11"],
     )
 
 
