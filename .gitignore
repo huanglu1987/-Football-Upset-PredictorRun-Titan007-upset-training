@@ -8,7 +8,9 @@ __pycache__/
 data/raw/
 data/interim/
 data/features/
-data/models/
+data/models/*
+!data/models/titan007_softmax_model.json
+!data/models/titan007_draw_softmax_model.json
 
 飞书文档审核/*
 !飞书文档审核/莫匹罗星资料核对/

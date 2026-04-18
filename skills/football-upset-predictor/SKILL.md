@@ -15,6 +15,8 @@ cd <repo-dir>
 bash scripts/bootstrap_repo.sh
 ```
 
+The repository now ships with the default Titan007 models under `<repo>/data/models/`, so a fresh clone can run `predict-range` / `predict-excel` immediately without retraining first.
+
 If the machine is brand new and you want bootstrap to immediately build the first local models, run:
 
 ```bash
@@ -42,9 +44,9 @@ PYTHONPATH=src python3 scripts/titan007_skill_entry.py predict-excel --start-dat
 Defaults:
 - main model: `<repo>/data/models/titan007_softmax_model.json`
 - draw model: `<repo>/data/models/titan007_draw_softmax_model.json`
+- fresh clones can use these bundled default models immediately; `refresh-models` is only needed when the user wants to regenerate newer local models
 - competitions: by default follow the active main model training domain; if the model metadata says `all`, predict all Titan007 competitions, otherwise reuse the model's explicit training competitions; if metadata is missing, fall back to `E0 SP1 D1 I1 F1`
 - fetch mode: default prediction keeps full markets (1X2 + Asian + over/under); use `--skip-side-markets` only for fast pre-screening when the user explicitly accepts reduced market context
-- if models are missing on a fresh machine, run `refresh-models` first
 
 When reporting results:
 - prioritize the betting recommendation summary rather than raw probability tables
@@ -107,7 +109,7 @@ PYTHONPATH=src python3 scripts/titan007_skill_entry.py train-models --input-path
 
 - Do not silently swap data sources away from Titan007 unless the user asks.
 - Do not assume "all competitions" unless the active model training domain is actually `all` or the user explicitly passes `--competitions`.
-- If the main model file is missing, tell the user to retrain before predicting.
+- If the bundled main model file is missing, tell the user to run `refresh-models` before predicting.
 - If the draw model file is missing, prediction can still run, but say that draw ranking was skipped.
 - Prefer summarizing betting recommendations first, then the combined leaderboard, then the draw leaderboard.
 - Prefer returning the Excel path plus the filtered top betting recommendations, not only raw CSV paths.
